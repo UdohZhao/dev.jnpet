@@ -46,13 +46,13 @@ $(function(){
             dataType:"json",
             success:function( res ){
               // res
-              if (res === true) {
+              if (res.code == 400) {
+                swal("登录失败", res.msg, "error");
+              } else if (res.code == 401) {
+                swal("登录失败", res.msg, "error");
+              } else {
                 window.location.href = '/admin/index/index';
                 // window.setTimeout("window.location.href='/admin/index/index'",2000);
-              } else if (res === false) {
-                swal("登录失败", "用户名或则密码错误 :(", "error");
-              } else {
-                swal("登录失败", "该用户已被冻结，请联系网站管理员 :(", "error");
               }
             },
             error:function(e){

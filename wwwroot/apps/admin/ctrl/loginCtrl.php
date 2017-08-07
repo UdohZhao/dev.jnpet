@@ -1,11 +1,15 @@
 <?php
 namespace apps\admin\ctrl;
 use core\lib\conf;
+use apps\admin\model\adminUser;
 use Gregwar\Captcha\CaptchaBuilder;
 class loginCtrl extends \core\icunji{
+  public $db;
   // 构造方法
   public function _initialize(){
-
+    $this->db = new adminUser();
+    // 站点名称
+    $this->assign('websiteName',conf::get('WEBSITE_NAME','admin'));
   }
 
   // 登录页面
@@ -18,6 +22,11 @@ class loginCtrl extends \core\icunji{
     }
     // Ajax
     if (IS_AJAX === true) {
+      // result
+      $result = array();
+      $result['code'] = 200; //反码状态，200正常，400往上都属错误
+      $result['msg'] = '';
+      $result['data'] = '';
       // data
       $data = $this->getData();
       if (isset($_POST['remember']) && $_POST['remember'] == 1) {
@@ -26,20 +35,20 @@ class loginCtrl extends \core\icunji{
         setcookie('username',$data['username'],time()-3600);
       }
       // 核对用户名和密码
-      $res = $this->db->getOne($data);
+      $res = $this->db->getInfo($data['username'],$data['password']);
       if ($res === false) {
-        echo json_encode(false);
-        die;
+        $result['code'] = 400;
+        $result['msg'] = '用户名或者密码错误 :(';
       } else {
         if ($res['status'] == 1) {
-          echo json_encode(1);
-          die;
+           $result['code'] = 401;
+           $result['msg'] = '该用户已被冻结，请联系网站管理员 :(';
         }
         // 用户信息存入session
         $_SESSION['userinfo'] = $res;
-        echo json_encode(true);
-        die;
       }
+      echo json_encode($result);
+      die;
     }
   }
 
