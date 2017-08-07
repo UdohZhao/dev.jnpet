@@ -1,0 +1,52 @@
+.commodity-prices{
+  font-size: 36rpx;
+  color: #ff2600;
+}
+.commodity-quantity{
+  float: right;
+  font-size: 36rpx;
+  color: #999;
+}
+.shipping-address-box{
+  margin-top: 10rpx;
+  background-color: #ffffff;
+}
+.placeholder{
+    margin: 10rpx;
+    padding: 0 20rpx;
+    border: 2rpx solid red;
+}
+.expressage-prices{
+  color: #ff2600;
+  margin-left: 10rpx;
+}
+.wechatPay{
+  color: #ff2600;
+}
+.bottom-box{
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  background-color: #ffffff;
+  border-top: 2rpx solid #999;
+}
+.total-title{
+  text-align: center;
+  line-height: 100rpx;
+}
+.immediate-payment{
+  text-align: center;
+  line-height: 100rpx;
+  background-color: #ff2600;
+  color: #ffffff;
+}
+.total-prices{
+  color: #ff2600;
+}
+.dam-board{
+  height: 400rpx;
+}
+
+
+

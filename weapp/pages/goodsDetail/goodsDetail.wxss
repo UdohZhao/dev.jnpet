@@ -1,0 +1,194 @@
+@import "../../dist/wxParse/wxParse.wxss";
+.page{
+    background-color: #f8f8f8;
+}
+.slide-image{
+   width: 100%;
+   height: 100%;
+}
+.commodity-title{
+  padding: 10rpx 10rpx;
+  background-color: #ffffff;
+}
+.commodity-tips{
+  padding: 0 10rpx;
+  background-color: #ffffff;
+  font-size: 32rpx;
+  color: #999;
+}
+.commodity-price{
+  padding: 10rpx 10rpx;
+  background-color: #ffffff;
+  color: #ff2600;
+}
+.commodity-content{
+  padding: 10rpx 10rpx;
+  background-color: #ffffff;
+}
+.content-inventory{
+  margin-left: 40rpx;
+}
+.content-salesvolume{
+  margin-left: 40rpx; 
+}
+.tab-flex{
+  margin-top: 30rpx;
+  background-color: #ffffff;
+}
+.weui-tab__content{
+    padding-top: 120rpx;
+    padding: 0;
+    margin: 0;
+}
+.commodity-details{
+  width: 100%;
+  height: 6000rpx;
+}
+.dam-board{
+  height: 120rpx;
+}
+.tabbar-flex{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120rpx;
+  background-color: #ffffff;
+  border-top: 2rpx solid #EBEBEB;
+}
+.customer-service{
+  width: 30%;
+  text-align: center;
+}
+.shopping-cart{
+  width: 30%;
+  text-align: center;
+}
+.add-shopping-cart{
+  width: 40%;
+  text-align: center;
+  border: 2rpx solid red;
+  background-color: #ff2600;
+}
+.asc-title{
+  padding: 30rpx 0;
+  color: #ffffff;
+}
+.weui-grid{
+  margin: 0;
+  padding: 10rpx 0;
+  width: 100%;
+  height: 100%;
+  
+}
+.weui-grid__label{
+  margin: 0;
+  padding: 0;
+}
+.commodity_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.2;
+  overflow: hidden;
+  z-index: 1000;
+  color: #fff;
+}
+.commodity_attr_box {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  background: #fff;
+}
+.bottom-commodity-price{
+  color: #ff2600;
+  font-size: 36rpx;
+}
+.commodity-specification-box{
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+.purchase-quantity-box{
+  padding: 0 30rpx;
+  margin-top: 30rpx;
+}
+.bottom-btn{
+  margin-top: 30rpx;
+  text-align: center;
+  background-color: #ff2600;
+  color: #ffffff;
+  padding: 20rpx 0;
+  height: 60rpx;
+  font-size: 40rpx;
+}
+
+/*主容器*/
+.stepper {
+	width: 160rpx;
+	height: 52rpx;
+	/*给主容器设一个边框*/
+	border: 2rpx solid #ccc;
+	border-radius: 6rpx;
+	margin:0 auto;
+}
+
+
+/*加号和减号*/
+.stepper text {
+	width: 38rpx;
+	line-height: 52rpx;
+	text-align: center;
+	float: left;
+}
+
+
+/*数值*/
+.stepper input {
+	width: 80rpx;
+	height: 52rpx;
+	float: left;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 24rpx;
+	/*给中间的input设置左右边框即可*/
+	border-left: 2rpx solid #ccc;
+	border-right: 2rpx solid #ccc;
+}
+
+/*普通样式*/
+.stepper .normal{
+	color: black;
+}
+
+/*禁用样式*/
+.stepper .disabled{
+	color: #ccc;
+}
+
+.cover-box{
+  height: 550rpx;
+  background-color: #ffffff;
+}
+
+.goods-title{
+  font-size: 32rpx;
+  color: #000;
+}
+
+.ge-user{
+  font-size: 36rpx;
+}
+
+.ge-status{
+  float: right;
+  color: #ff2600;
+}
+
+
+

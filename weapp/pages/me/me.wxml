@@ -1,0 +1,62 @@
+<!--myself.wxml-->
+<view class="page">
+<view class="page__bd">
+
+  <!--个人信息 start-->
+  <view class="weui-flex personal-information-box">
+    <view class="weui-flex__item">
+    <view class="avatar-box">
+    <image class="avatar-img" src="{{userInfo.avatarUrl}}"></image>
+    </view>
+    <view class="nick-name">{{userInfo.nickName}}</view>
+    </view>
+  </view>
+  <!--个人信息 end-->
+ 
+  <!--订单管理 start-->
+  <view class="weui-flex indent-box">
+    <view class="weui-flex__item">
+    <!--订单信息 start  -->
+    <view class="weui-cells__title indent-title"># 订单管理</view>
+    <view class="weui-cells weui-cells_after-title">
+        <navigator url="/pages/indent/indent?itype=0" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__bd">微商城订单</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator url="/pages/indent/indent?itype=1" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+            <view class="weui-cell__bd">微拼团订单</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+    </view>
+    <!--订单信息 end-->
+    </view>
+  </view>
+  <!--订单管理 end-->
+
+  <!--收货地址管理 start-->
+  <view class="weui-flex indent-box">
+  <view class="weui-flex__item">
+  <!--收货地址信息 start  -->
+  <view class="weui-cells__title indent-title"># 收货地址管理</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="shippingAddress">
+        <view class="weui-cell__bd">收货地址</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+  <!--收货地址信息 end-->
+  </view>
+  </view>
+  <!--收货地址管理 end-->
+
+</view>
+
+  <!-- 技术支持 start -->
+  <view class="weui-footer">
+    <view class="weui-footer__links">
+        <view class="weui-footer__link">重庆存己科技提供技术支持</view>
+    </view>
+  </view>
+  <!-- 技术支持 end -->
+
+</view>

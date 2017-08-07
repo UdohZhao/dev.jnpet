@@ -1,0 +1,3 @@
+log/
+.DS_Store
+!core/lib/drive/

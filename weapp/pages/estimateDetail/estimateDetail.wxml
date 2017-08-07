@@ -1,0 +1,51 @@
+<view class="page">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <icon type="info" size="93"></icon>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">商品评价</view>
+            <view class="weui-msg__desc">"表达出您的看法 ：）"</view>
+        </view>
+
+        <form bindsubmit="EventEstimateForm">
+
+        <view class="weui-cells weui-cells_after-title">
+        <radio-group bindchange="radioChange">
+                <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
+                    <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+
+                    <view class="weui-cell__bd">{{item.name}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                        <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                    </view>
+                </label>
+            </radio-group>
+
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea class="weui-textarea" name="estimate" placeholder="请输入您的看法" style="height: 3.3em" />
+                </view>
+            </view>
+        </view>
+
+         </view>   
+
+        <view class="weui-msg__opr-area">
+            <view class="weui-btn-area">
+                <button class="weui-btn" form-type="submit" type="primary">提交</button>
+            </view>
+        </view>
+
+        </form>
+
+        <view class="weui-msg__extra-area">
+            <view class="weui-footer">
+                <view class="weui-footer__links">
+                    <navigator url="" class="weui-footer__link">海淘电商-酷浪网络</navigator>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

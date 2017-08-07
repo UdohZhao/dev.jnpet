@@ -1,0 +1,5 @@
+/**app.wxss**/
+@import 'dist/style/weui.wxss';
+page{
+  background-color: #eee;
+}

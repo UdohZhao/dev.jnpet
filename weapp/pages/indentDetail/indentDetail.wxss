@@ -1,0 +1,65 @@
+.placeholder{
+    margin: 5px;
+    padding: 0 10px;
+}
+.page{
+    background-color: #EBEBEB;
+}
+.indent-number-box{
+  background-color: #ffffff;
+  margin-bottom: 10rpx;
+}
+.indent-status{
+  float: right;
+  color: #ff2600;
+  font-size: 32rpx;
+}
+
+.consignee-phone{
+  float: right;
+}
+
+.commodity-prices{
+  color: #ff2600;
+}
+.buy-quantity{
+  float: right;
+}
+.shipping-address{
+  color: #999;
+  font-size: 32rpx;
+}
+.leave-a-message{
+  color: #999;
+  font-size: 32rpx;
+}
+.pay-status{
+  float: right;
+  color: #ff2600;
+  font-size: 32rpx;
+}
+.psi-box{
+  margin-bottom: 30rpx;
+}
+.psi-item{
+  color: #999;
+  font-size: 32rpx;
+}
+.summation-prices{
+  float: right;
+  color: #ff2600;
+}
+.commodity-total-prices{
+  float: right;
+}
+.carriage-prices{
+  float: right;
+}
+.immediate-payment-box{
+  padding: 30rpx 30rpx;
+}
+
+
+
+
+

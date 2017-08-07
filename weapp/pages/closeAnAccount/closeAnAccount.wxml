@@ -1,0 +1,109 @@
+<view class="page">
+<view class="page__bd">
+
+  <!--商品信息 start-->
+  <view class="weui-panel weui-panel_access">
+      <view class="weui-panel__hd">请确认以下订单信息</view>
+      <view class="weui-panel__bd">
+
+
+          <block wx:for="{{gData}}" wx:key="index">
+           
+          <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                  <image class="weui-media-box__thumb" src="{{domain}}/Admin/Uploads/{{item.gData.cover_path[0]}}" />
+              </view>
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                  <view class="weui-media-box__title">{{item.gData.cname}}【{{item.gData.specification[item.specification]}}】</view>
+                  <view class="weui-media-box__desc">
+              
+              <text class="commodity-prices">¥<block wx:if="{{unitPrice}}">{{unitPrice}}</block><block wx:else>{{item.gData.promotion_price}}</block></text>
+              <text class="commodity-quantity">x{{item.quantity}}</text>
+
+                  </view>
+              </view>
+          </view>
+
+          </block>
+
+
+          
+
+
+      </view>
+  </view>
+  <!--商品信息 end-->
+
+  <!--收货地址 start-->
+  <view class="weui-flex shipping-address-box">
+  <view class="weui-flex__item">
+
+  <view class="weui-cell weui-cell_access" hover-class="weui-cell_active" bindtap="newlyIncreased">
+      <view class="weui-cell__bd">收货地址</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access">{{addressTips}}</view>
+  </view>
+
+  </view>
+  </view>
+  <!--收货地址 end-->
+
+  <!--配送方式 start-->
+  <view class="weui-flex shipping-address-box">
+  <view class="weui-flex__item">
+
+  <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <view class="weui-cell__bd">配送方式</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access">快递配送-<text class="expressage-prices">¥{{postage}}</text></view>
+  </view>
+
+  </view>
+  </view>
+  <!--配送方式 end-->
+
+  <!--支付方式 start-->
+  <view class="weui-flex shipping-address-box">
+  <view class="weui-flex__item">
+
+  <view class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+      <view class="weui-cell__bd">支付方式</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"><text class="wechatPay">微信支付</text></view>
+  </view>
+
+  </view>
+  </view>
+  <!--支付方式 end-->
+
+  <!--买家留言 start-->
+  <view class="weui-flex shipping-address-box">
+  <view class="weui-flex__item">
+
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__hd">
+        <view class="weui-label">买家留言</view>
+    </view>
+    <view class="weui-cell__bd">
+        <input bindchange="message" class="weui-input" placeholder="点击给商家留言"/>
+    </view>
+  </view>
+
+  </view>
+  </view>
+  <!--买家留言 end-->
+
+  <view class="dam-board"></view>
+
+  <!--底部 start-->
+  <view class="weui-flex bottom-box">
+  <view class="weui-flex__item total-title">
+  合计：<text class="total-prices">¥{{totalPrice}}</text> 
+  </view>
+  <view class="weui-flex__item immediate-payment" bindtap="submitIndent">
+  提交订单 
+  </view>
+  </view>
+  <!--底部 end-->
+
+
+</view>
+</view>
+

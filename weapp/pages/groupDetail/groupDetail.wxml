@@ -1,0 +1,169 @@
+<import src="../../dist/wxParse/wxParse.wxml"/>  
+<view class="page">
+    <view class="page__bd">
+
+      <!--轮播图 start-->
+      <swiper indicator-dots="{{indicatorDots}}"
+        autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" class="cover-box"> 
+        <block wx:for="{{imgUrls}}" wx:key="index">
+          <swiper-item>
+            <image src="{{item}}" class="slide-image"/>
+          </swiper-item>
+        </block>
+      </swiper>
+      <!--轮播图 end-->
+
+      <!--商品参数 start-->
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <view class="placeholder">
+            <text class="team-price">¥{{ggInfo.promotion_price}}987.00</text>
+            <text class="alone-price">¥{{ggInfo.original_price}}333.00</text>
+            <text class="team-hint">拼团立减{{ggInfo.balance}}345.00元</text>
+            <view>
+            <text class="offered">tips：已有<text class="offered-number">1{{ggInfo.numberPeople}}</text>人参团</text>
+            <text class="offered-br"></text>
+            </view>
+            <view class="commodity-title-box">
+            <text class="commodity-title">{{ggInfo.cname}}猫饲料</text> 
+            </view>
+          </view>
+        </view>
+      </view>
+      <!--商品参数 end-->
+
+
+      <!--正在开团的小伙伴 start-->
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <view class="placeholder">
+            <view class="alone-team-title">正在开团的小伙伴</view>
+            <view class="alone-team-name">
+              <view wx:if="{{ggInfo.gjData}}">
+              <view wx:for="{{ggInfo.gjData}}" wx:key="i" wx:for-index="ik" wx:for-item="iv">
+      {{iv.nickname}}，</view>
+              </view>
+              <view wx:else>"还没有小伙伴加入，快来第一个参与开团 ：）"</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!--正在开团的小伙伴 end-->
+
+
+      <!--拼团玩法 start-->
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <view class="placeholder">
+          <view class="playing-method">拼团玩法</view>
+          <image class="playing-method-img" src="/dist/images/demo/playing-method.png"></image>
+          </view>
+        </view>
+      </view>
+      <!--拼团玩法 end-->
+
+
+      <!--商品详情 start-->
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <view class="placeholder">
+          <view class="playing-method">商品详情</view>
+          <view class="commodity-details-box">
+            <!--<image class="commodity-details" src="/example/images/iphone7info.png"></image>-->
+
+          <template is="wxParse" data="{{wxParseData:content.nodes}}"/> 
+
+          </view>
+          </view>
+        </view>
+      </view>
+      <!--商品详情 end-->
+
+      <view class="dam-board"></view>
+
+      <!--底部 start-->
+      <view class="weui-flex bottom-flex">
+        <view class="weui-flex__item alone-box" bindtap="showModal" data-buytype="0">
+        <view>¥{{ggInfo.original_price}}333.00</view>
+        <view>单独购买</view>
+        </view>
+        <view class="weui-flex__item team-box" bindtap="showModal" data-buytype="1">
+        <view>¥{{ggInfo.promotion_price}}111.00</view>
+        <view>{{ggInfo.ggData.group_quantity}}3人团</view>
+        </view>
+      </view>
+      <!--底部 end-->
+
+    </view>
+</view>
+
+<!--底部弹出 start-->
+<view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
+<view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
+
+<!--商品信息 start-->
+<view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+<view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+    <image class="weui-media-box__thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg" />
+</view>
+<view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+    <view class="weui-media-box__title bottom-commodity-title">{{ggInfo.cname}}猫饲料</view>
+    <view class="weui-media-box__desc bottom-commodity-price">¥<block wx:if="{{buytype == 1}}">333.00{{ggInfo.promotion_price}}</block><block wx:else>666.00{{ggInfo.original_price}}</block></view>
+</view>
+</view>
+<!--商品信息 end-->
+
+
+<!--商品规格 start-->
+<view class="commodity-specification-box">
+<view class="commodity-specification-title">商品规格：</view> 
+<view class="commodity-specification-content">
+        <view class="weui-cells weui-cells_after-title">
+
+
+<radio-group bindchange="radioChange">
+    <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
+        <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+
+        <view class="weui-cell__bd">{{item.name}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+            <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+        </view>
+    </label>
+</radio-group>
+
+
+        </view>
+</view>
+</view>
+<!--商品规格 end-->
+
+<!--购买数量 start-->
+<view class="purchase-quantity-box">
+<view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">购买数量</view>
+        <view class="weui-cell__ft">
+            <!-- 主容器 -->
+            <view class="stepper">
+              <!-- 减号 -->
+              <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
+              <!-- 数值 -->
+              <input type="number" bindchange="bindManual" value="{{num}}" />
+              <!-- 加号 -->
+              <text class="normal" bindtap="bindPlus">+</text>
+            </view>
+        </view>
+    </view>
+</view>
+</view>
+<!--购买数量 end-->
+
+<!--确定 start-->
+<view class="bottom-btn" bindtap="buyBtn" data-id="{{ggInfo.id}}">
+购 买
+</view>
+<!--确定 end-->
+
+</view>
+<!--底部弹出 end-->

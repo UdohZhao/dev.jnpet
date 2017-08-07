@@ -1,0 +1,121 @@
+<view class="page">
+<view class="page__bd">
+
+<!--if start-->
+<view wx:if="{{iData}}">
+ 
+<!--foreach start-->
+<block wx:for="{{iData}}" wx:key="i" wx:for-index="iv" wx:for-item="it">
+
+<!--订单item start-->
+<view class="weui-flex">
+  <view class="weui-flex__item">
+        <view class="weui-panel weui-panel_access">
+            <view class="weui-panel__hd">订单号：{{it.serial_number}}<text class="indent-status"><block wx:if="{{it.type == 0}}">{待付款}</block><block wx:if="{{it.type == 1}}">{待发货}</block><block wx:if="{{it.type == 2}}">{待收货}</block><block wx:if="{{it.type == 3}}">[待评价]</block><block wx:if="{{it.type == 4}}">{售后服务}</block></text></view>
+            <view class="weui-panel__bd">
+
+
+            <block wx:for="{{itgData}}" wx:key="ii" wx:for-index="ivv" wx:for-item="itt">
+
+              <navigator url="/pages/indentDetail/indentDetail?id=1" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                  <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                      <image class="weui-media-box__thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg" />
+                  </view>
+                  <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                      <view class="weui-media-box__title">{{itt.cname}}【{{itt.specification}}】</view>
+                      <view class="weui-media-box__desc">
+              <text class="commodity-prices">¥<block wx:if="{{it.unit_price != '0.00'}}">{{it.unit_price}}</block><block wx:else>{{itt.promotion_price}}</block></text>
+              <text class="buy-quantity">x{{itt.quantity}}</text>
+                      </view>
+                  </view>
+              </navigator>
+
+             </block>
+
+
+            </view>
+            <view class="weui-panel__ft">
+                <view class="weui-cell weui-cell_access weui-cell_link">
+                    <view class="weui-cell__bd">订单金额：<text class="indent-prices">¥{{it.total_price}}</text></view>
+
+
+    
+
+      <block wx:if="{{it.type == 0}}">
+        <block wx:if="{{it.status == 0 && it.itype == 0}}">
+            <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">取消订单</button>
+        </block>
+        <block wx:if="{{it.status == 1 && it.itype == 0}}">
+        <text class="indent-status">{已取消订单}</text>
+        </block>
+      </block>
+      <block wx:if="{{it.type == 1}}">
+      <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">联系商家</button>
+      </block>
+      <block wx:if="{{it.type == 2}}">
+      <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">确认收货</button>
+      </block>
+      <block wx:if="{{it.type == 3 && it.itype == 0}}">
+      <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{it.id}}" data-type="{{'3.5'}}" bindtap="dispose">售后服务</button>
+      <text style="margin-left:10rpx;"></text>
+      <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">立即评价</button>
+      </block>
+      <block wx:if="{{it.type == 4 && it.itype == 0}}">
+        <block wx:if="{{it.status == 0}}">
+            <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">申请退款</button>
+        </block>
+        <block wx:if="{{it.status == 3}}">
+        <text class="indent-status">{已申请退款}</text>
+        </block>
+      </block>
+
+
+
+                </view>
+            </view>
+        </view>
+  </view>
+</view>
+<!--订单item end-->
+
+</block>
+<!--foreach end-->
+
+</view>
+<!--if end-->
+
+<!--else start-->
+<view wx:else>
+
+<view class="page">
+    <view class="weui-msg">
+        <view class="weui-msg__icon-area">
+            <icon type="info" size="93"></icon>
+        </view>
+        <view class="weui-msg__text-area">
+            <view class="weui-msg__title">暂无数据 :(</view>
+            <view class="weui-msg__desc">"您还没有相关订单信息"</view>
+        </view>
+        <view class="weui-msg__extra-area">
+            <view class="weui-footer">
+                <view class="weui-footer__links">
+                    <view class="weui-footer__link">重庆存己科技提供技术支持</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+
+</view>
+<!--else end-->
+
+</view>
+</view>
+
+
+
+
+
+
+
+

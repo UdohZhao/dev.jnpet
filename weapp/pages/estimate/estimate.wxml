@@ -1,0 +1,67 @@
+<view class="page">
+<view class="page__bd">
+
+<!--订单item start-->
+<view class="weui-flex">
+  <view class="weui-flex__item">
+
+          <view class="weui-panel weui-panel_access">
+            <view class="weui-panel__bd">
+
+
+            <block wx:for="{{iData.scids}}" wx:key="i" wx:for-index="ik" wx:for-item="iv">
+
+              <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                  <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                      <image class="weui-media-box__thumb" src="{{domain}}/Admin/Uploads/{{iv.gid.cover_path[0]}}" />
+                  </view>
+                  <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                      <view class="weui-media-box__title">{{iv.gid.cname}}【{{iv.gid.specification[iData.scids[ik].specification]}}】</view>
+                      <view class="weui-media-box__desc">
+              <text class="commodity-prices">¥<block wx:if="{{iData.unit_price != '0.00'}}">{{iData.unit_price}}</block><block wx:else>{{iv.gid.promotion_price}}</block></text>
+              <text class="buy-quantity">x{{iData.scids[ik].quantity}}</text>
+                      </view>
+                  </view>
+              </view>
+
+            <view class="weui-panel__ft">
+                <view class="weui-cell weui-cell_access weui-cell_link">
+                    <view class="weui-cell__bd">
+
+                    <view wx:if="{{iv.gid.off === true}}">
+
+                    <button class="weui-btn" type="primary" disabled="true">商品已评价</button>
+                    </view>
+
+                    <view wx:else>
+
+                    <button class="weui-btn" type="warn" bindtap="estimate" data-iid="{{iData.id}}" data-gid="{{iv.gid.id}}" data-specification="{{iv.gid.specification[iData.scids[ik].specification]}}">评价商品</button>
+
+                    </view>
+
+
+                    </view>
+
+                </view>
+            </view>
+
+             </block>
+        </view>
+      </view>
+  </view>
+</view>
+<!--订单item end-->
+
+
+
+</view>
+</view>
+
+
+
+
+
+
+
+
+

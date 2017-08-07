@@ -1,0 +1,55 @@
+page,
+.page,
+.page__bd{
+    height: 100%;
+}
+.page__bd{
+    padding-bottom: 0;
+}
+.weui-navbar{
+  background-color: #ffffff;
+}
+.placeholder{
+    margin: 10rpx;
+    background-color: #ffffff;
+}
+.img-thumb{
+  width: 100%;
+}
+.commodity-title{
+  margin-left: 10rpx;
+}
+.commodity-price{
+  margin-left: 10rpx;
+  display: inline;
+}
+.commodity-btn{
+  display: inline;
+  float: right;
+  margin-right: 10rpx;
+}
+.team-title{
+  border: 2rpx solid #ff2600;
+  border-radius: 4rpx;
+  padding: 10rpx;
+  color: #ff2600;
+}
+.startteam-title{
+  border: 2rpx solid #ff2600;
+  border-radius: 4rpx;
+  background-color: #ff2600;
+  color: #ffffff;
+  padding: 10rpx; 
+}
+.team-price{
+  color: #ff2600;  
+}
+.alone-price{
+  color: #999;
+  font-size: 28rpx;
+  text-decoration:line-through;
+  margin-left: 10rpx;
+}
+.commodity-br{
+  border: 10rpx solid #ffffff;
+}

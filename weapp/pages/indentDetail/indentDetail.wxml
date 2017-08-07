@@ -1,0 +1,153 @@
+<view class="page">
+<view class="page__bd">
+
+<!--订单号 start-->
+<view class="weui-flex indent-number-box">
+  <view class="weui-flex__item">
+  <view class="placeholder">
+  <text class="indent-number">订单号：{{iData.serial_number}}</text>
+  <text class="indent-status"><block wx:if="{{iData.status == 1}}">{已取消订单}</block></text>
+  </view>
+  </view>
+</view>
+<!--订单号 end-->
+
+<!--收货信息 start-->
+<view class="weui-flex indent-number-box">
+<view class="weui-flex__item">
+<view class="placeholder">
+  <!--<view class="tdog-info">
+    <text class="consignee">赵存己</text>
+    <text class="consignee-phone">18423031898</text>
+  </view>-->
+  <view class="shipping-address">
+    {{iData.take_delivery}}
+  </view>
+</view>
+</view>
+</view>
+<!--收货信息 end-->
+
+<!--商品信息 start-->
+<view class="weui-flex indent-number-box">
+<view class="weui-flex__item">
+
+<!--foreach start-->
+<block wx:for="{{iData.gData}}" wx:key="i" wx:for-index="ik" wx:for-item="iv">
+  
+<!--商品item start-->
+<view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+  <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+      <image class="weui-media-box__thumb" src="{{domain}}/Admin/Uploads/{{iv.cover_path}}" />
+  </view>
+  <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+      <view class="weui-media-box__title">{{iv.cname}}</view>
+      <view class="weui-media-box__desc">
+<text class="commodity-prices">¥<block wx:if="{{iData.unit_price != '0.00'}}">{{iData.unit_price}}</block><block wx:else>{{iv.promotion_price}}</block></text>
+<text class="buy-quantity">x{{iData.scids[ik].quantity}}</text>
+      </view>
+  </view>
+</view>
+<!--商品item end-->
+
+</block>
+<!--foreach end-->
+
+
+</view>
+</view>
+<!--商品信息 end-->
+
+<!--买家留言 start-->
+<view class="weui-flex indent-number-box">
+<view class="weui-flex__item">
+<view class="placeholder">
+  <view>买家留言：<text class="leave-a-message">{{iData.leave_message}}</text></view>
+</view>
+</view>
+</view>
+<!--买家留言 end-->
+
+<!--支付状态 start-->
+<view class="weui-flex indent-number-box">
+<view class="weui-flex__item">
+<view class="placeholder">
+  <view class="psi-box">
+   <text class="pay-title">支付状态</text>
+   <text class="pay-status"><block wx:if="{{iData.type == 0}}">待付款</block><block wx:if="{{iData.type == 1}}">待发货</block><block wx:if="{{iData.type == 2}}">待收货
+</block><block wx:if="{{iData.type == 3}}">待评价</block><block wx:if="{{iData.type == 4}}">申请退款</block></text>
+  </view>
+  <view>
+  支付方式：<text class="psi-item">微信支付</text>
+  </view>
+  <view>
+  下单时间：<text class="psi-item">{{iData.pao_time}}</text>
+  </view>
+  <view>
+  发货时间：<text class="psi-item">{{iData.dg_time}}</text>
+  </view>
+</view>
+</view>
+</view>
+<!--支付状态 end-->
+
+<!--配送信息 start-->
+<view class="weui-flex indent-number-box">
+<view class="weui-flex__item">
+<view class="placeholder">
+  <view class="psi-box">
+   <text>配送信息</text>
+  </view>
+  <view>
+  配送方式：<text class="psi-item">{{iData.delivery}}</text>
+  </view>
+  <view>
+  快递单位：<text class="psi-item">{{iData.unit}}</text>
+  </view>
+  <view>
+  快递单号：<text class="psi-item">{{iData.odd_numbers}}</text>
+  </view>
+</view>
+</view>
+</view>
+<!--配送信息 end-->
+
+<!--合计 start-->
+<view class="weui-flex indent-number-box">
+<view class="weui-flex__item">
+<view class="placeholder">
+  <view class="summation-box">
+    <text>合计：</text>
+    <text class="summation-prices">¥{{iData.total_price}}</text>
+  </view>
+  <view class="total-amount-box">
+    <text>商品总额：</text>
+    <text class="commodity-total-prices">¥{{iData.total_price}}</text>
+  </view>
+  <view class="carriage-box">
+    <text>+运费：</text>
+    <text class="carriage-prices">¥{{iData.postage}}</text>
+  </view>
+</view>
+</view>
+</view>
+<!--合计 end-->
+
+
+<block wx:if="{{iData.status == 0 && iData.type == 0}}">
+ 
+<!--立即支付 start-->
+<view class="weui-flex">
+<view class="weui-flex__item">
+<view class="immediate-payment-box">
+  <button class="weui-btn" type="warn" data-id="{{iData.id}}" data-total_price="{{iData.total_price}}" bindtap="immediatePayment">立即支付</button>
+</view>
+</view>
+</view>
+<!--立即支付 end-->
+
+</block>
+
+
+</view>
+</view>

@@ -1,0 +1,42 @@
+.placeholder{
+    margin: 10rpx;
+    padding: 0 20rpx;
+    text-align: center;
+    background-color: #f8f8f8;
+    height: 2.3em;
+    line-height: 2.3em;
+    color: #cfcfcf;
+}
+.personal-information-box{
+  background-color: #1AAD19;
+  height: 400rpx;
+}
+.avatar-box{
+  text-align: center;
+}
+.avatar-img{
+  height: 200rpx;
+  width: 200rpx;
+  border-radius: 200rpx;
+  border: 10rpx solid rgba(0,0,0,0.5);
+  margin-top: 60rpx;
+}
+.nick-name{
+  text-align: center;
+  color: #ffffff;
+}
+.indent-box{
+  margin-top: 10rpx;
+}
+.dam-board{
+  border: 2rpx solid #ffffff;
+
+}
+.indent-title{
+  background-color: #ffffff;
+  font-size: 40rpx;
+  margin: 0;
+}
+.weui-footer{
+    margin-top: 220rpx;
+}

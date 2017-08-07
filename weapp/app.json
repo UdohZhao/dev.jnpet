@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/main/main",
+    "pages/group/group",
+    "pages/cart/cart",
+    "pages/me/me",
+    "pages/demo/demo",
+    "pages/goodsDetail/goodsDetail",
+    "pages/groupDetail/groupDetail",
+    "pages/indent/indent",
+    "pages/indentDetail/indentDetail",
+    "pages/closeAnAccount/closeAnAccount",
+    "pages/estimate/estimate",
+    "pages/estimateDetail/estimateDetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#1AAD19",
+    "navigationBarTitleText": "壹家宠物狗粮猫粮湿粮天然粮",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#1AAD19",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#04BE02",
+    "backgroundColor": "#f7f7fa",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/main/main",
+        "text": "首页",
+        "iconPath": "dist/images/icon/main-default.png",
+        "selectedIconPath": "dist/images/icon/main-selected.png"
+      },
+      {
+        "pagePath": "pages/group/group",
+        "text": "拼团",
+        "iconPath": "dist/images/icon/group-default.png",
+        "selectedIconPath": "dist/images/icon/group-selected.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "dist/images/icon/cart-default.png",
+        "selectedIconPath": "dist/images/icon/cart-selected.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我",
+        "iconPath": "dist/images/icon/me-default.png",
+        "selectedIconPath": "dist/images/icon/me-selected.png"
+      }
+    ]
+  }
+}
