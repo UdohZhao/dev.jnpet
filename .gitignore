@@ -1,3 +1,2 @@
-log/
 .DS_Store
-!core/lib/drive/log/*
+wwwroot/log/
