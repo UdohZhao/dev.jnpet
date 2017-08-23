@@ -2,7 +2,7 @@
 App({
   data: {
     // 域名
-    domain: "http://dev.jnpet.local",
+    domain: "https://qds.icunji.com",
     phone: "18423031898",
     technicalSupport: "重庆存己科技提供技术支持"
   },
