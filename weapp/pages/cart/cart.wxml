@@ -8,15 +8,15 @@
                   <view class="cart-list" wx:for="{{carts}}" wx:key="{{index}}">
                       <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
                       <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList"/>
-                      <navigator url="../details/details?id={{item.id}}"><image class="cart-thumb" src="{{item.image}}"></image></navigator>
-                      <text class="cart-pro-name">{{item.title}}</text>
-                      <text class="cart-pro-price">￥{{item.price}}</text>
+                      <navigator url="/pages/goodsDetail/goodsDetail?gid={{item.gid}}"><image class="cart-thumb" src="{{domain}}{{item.gData.img_path}}"></image></navigator>
+                      <text class="cart-pro-name">「{{item.specification}}」{{item.gData.cname}}</text>
+                      <text class="cart-pro-price">￥{{item.gData.promotion_price}}</text>
                       <view class="cart-count-box">
                           <text class="cart-count-down" bindtap="minusCount" data-index="{{index}}">-</text>
-                          <text class="cart-count-num">{{item.num}}</text>
+                          <text class="cart-count-num">{{item.quantity}}</text>
                           <text class="cart-count-add" bindtap="addCount" data-index="{{index}}">+</text>
                       </view>
-                      <text class="cart-del" bindtap="deleteList" data-index="{{index}}">×</text>
+                      <text class="cart-del" bindtap="deleteList" data-index="{{index}}" data-id="{{item.id}}" >×</text>
                   </view>
               </view>
 
@@ -30,7 +30,24 @@
               </view>
           </view>
           <view wx:else>
-              <view class="cart-no-data">购物车是空的哦~</view>
+            <view class="page">
+                <view class="weui-msg">
+                    <view class="weui-msg__icon-area">
+                        <icon type="info" size="93"></icon>
+                    </view>
+                    <view class="weui-msg__text-area">
+                        <view class="weui-msg__title">购物车竟然是空的</view>
+                        <view class="weui-msg__desc">"再忙也要记得买点什么～"</view>
+                    </view>
+                    <view class="weui-msg__extra-area">
+                        <view class="weui-footer">
+                            <view class="weui-footer__links">
+                                <view class="weui-footer__link">{{technicalSupport}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
           </view>
       </view>
       <!-- 购物车 end -->

@@ -10,6 +10,14 @@ class loginCtrl extends \core\icunji{
     $this->db = new adminUser();
     // 站点名称
     $this->assign('websiteName',conf::get('WEBSITE_NAME','admin'));
+    if (isset($_SESSION['userinfo'])) {
+      header('Location:/admin/index/index');
+      die;
+    }
+    // cookie里的username
+    if (isset($_COOKIE['username'])) {
+      $this->assign('username',$_COOKIE['username']);
+    }
   }
 
   // 登录页面
@@ -32,7 +40,7 @@ class loginCtrl extends \core\icunji{
       if (isset($_POST['remember']) && $_POST['remember'] == 1) {
          setcookie('username',$data['username'],time()+3600);
       } else {
-        setcookie('username',$data['username'],time()-3600);
+         setcookie('username',$data['username'],time()-3600);
       }
       // 核对用户名和密码
       $res = $this->db->getInfo($data['username'],$data['password']);

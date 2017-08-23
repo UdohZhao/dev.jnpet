@@ -5,30 +5,44 @@
 <view wx:if="{{iData}}">
  
 <!--foreach start-->
-<block wx:for="{{iData}}" wx:key="i" wx:for-index="iv" wx:for-item="it">
+<block wx:for="{{iData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
 
 <!--订单item start-->
 <view class="weui-flex">
   <view class="weui-flex__item">
         <view class="weui-panel weui-panel_access">
-            <view class="weui-panel__hd">订单号：{{it.serial_number}}<text class="indent-status"><block wx:if="{{it.type == 0}}">{待付款}</block><block wx:if="{{it.type == 1}}">{待发货}</block><block wx:if="{{it.type == 2}}">{待收货}</block><block wx:if="{{it.type == 3}}">[待评价]</block><block wx:if="{{it.type == 4}}">{售后服务}</block></text></view>
+            <view class="weui-panel__hd">
+            订单号：{{v.inumber}}
+            <text class="indent-status">
+            <block wx:if="{{v.type == 0 && v.status == 0}}">「待完善」</block>
+            <block wx:if="{{v.type == 0 && v.status == 1}}">「待付款」</block>
+            <block wx:if="{{v.type == 0 && v.status == 2}}">「取消订单」</block>
+            <block wx:if="{{v.type == 0 && v.status == 3}}">「订单超时」</block>
+            <block wx:if="{{v.type == 1 && v.status == 1}}">「待发货」</block>
+            <block wx:if="{{v.type == 2 && v.status == 1}}">「待收货」</block>
+            <block wx:if="{{v.type == 3 && v.status == 1}}">「待评价」</block>
+            <block wx:if="{{v.type == 4 && v.status == 1}}">「售后服务」</block>
+            <block wx:if="{{v.type == 4 && v.status == 4}}">「申请退款」</block>
+            <block wx:if="{{v.type == 4 && v.status == 5}}">「退款失败」</block>
+            <block wx:if="{{v.type == 4 && v.status == 6}}">「退款成功」</block>
+            </text>
+            </view>
             <view class="weui-panel__bd">
 
+            <block wx:for="{{v.igData}}" wx:key="ii" wx:for-index="kk" wx:for-item="vv">
 
-            <block wx:for="{{itgData}}" wx:key="ii" wx:for-index="ivv" wx:for-item="itt">
-
-              <navigator url="/pages/indentDetail/indentDetail?id=1" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+              <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
                   <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                      <image class="weui-media-box__thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg" />
+                      <image class="weui-media-box__thumb" src="{{domain}}{{vv.img_path}}" />
                   </view>
                   <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                      <view class="weui-media-box__title">{{itt.cname}}【{{itt.specification}}】</view>
+                      <view class="weui-media-box__title g-title">「{{vv.goods_specification}}」{{vv.goods_name}}</view>
                       <view class="weui-media-box__desc">
-              <text class="commodity-prices">¥<block wx:if="{{it.unit_price != '0.00'}}">{{it.unit_price}}</block><block wx:else>{{itt.promotion_price}}</block></text>
-              <text class="buy-quantity">x{{itt.quantity}}</text>
+              <text class="commodity-prices">¥{{vv.goods_price}}</text>
+              <text class="buy-quantity">x{{vv.quantity}}</text>
                       </view>
                   </view>
-              </navigator>
+              </view>
 
              </block>
 
@@ -36,40 +50,36 @@
             </view>
             <view class="weui-panel__ft">
                 <view class="weui-cell weui-cell_access weui-cell_link">
-                    <view class="weui-cell__bd">订单金额：<text class="indent-prices">¥{{it.total_price}}</text></view>
+                    <view class="weui-cell__bd">订单金额：<text class="indent-prices">¥{{v.total_money}}</text></view>
 
 
-    
-
-      <block wx:if="{{it.type == 0}}">
-        <block wx:if="{{it.status == 0 && it.itype == 0}}">
-            <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">取消订单</button>
+        <block wx:if="{{v.type == 0 && v.status == 0}}">
+          <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{v.id}}" bindtap="coo">取消订单</button>
+          -
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="perfect">立即完善</button>          
         </block>
-        <block wx:if="{{it.status == 1 && it.itype == 0}}">
-        <text class="indent-status">{已取消订单}</text>
-        </block>
-      </block>
-      <block wx:if="{{it.type == 1}}">
-      <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">联系商家</button>
-      </block>
-      <block wx:if="{{it.type == 2}}">
-      <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">确认收货</button>
-      </block>
-      <block wx:if="{{it.type == 3 && it.itype == 0}}">
-      <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{it.id}}" data-type="{{'3.5'}}" bindtap="dispose">售后服务</button>
-      <text style="margin-left:10rpx;"></text>
-      <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">立即评价</button>
-      </block>
-      <block wx:if="{{it.type == 4 && it.itype == 0}}">
-        <block wx:if="{{it.status == 0}}">
-            <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{it.id}}" data-type="{{it.type}}" bindtap="dispose">申请退款</button>
-        </block>
-        <block wx:if="{{it.status == 3}}">
-        <text class="indent-status">{已申请退款}</text>
-        </block>
-      </block>
 
+        <block wx:if="{{v.type == 0 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{v.id}}" bindtap="coo">取消订单</button>
+          -
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="iPay">立即付款</button>          
+        </block>
 
+        <block wx:if="{{v.type == 1 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="callPhone">联系商家</button>          
+        </block>
+
+        <block wx:if="{{v.type == 2 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="tdog">确认收货</button>          
+        </block>
+
+        <block wx:if="{{v.type == 3 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" data-id="{{v.id}}" bindtap="estimate">立即评价</button>          
+        </block>
+
+        <block wx:if="{{v.type == 4 && v.status == 1}}">
+          <button class="weui-btn mini-btn coo-btn" type="warn" size="mini" data-id="{{v.id}}" bindtap="refund">申请退款</button>          
+        </block>
 
                 </view>
             </view>
@@ -93,13 +103,13 @@
             <icon type="info" size="93"></icon>
         </view>
         <view class="weui-msg__text-area">
-            <view class="weui-msg__title">暂无数据 :(</view>
+            <view class="weui-msg__title">暂无数据</view>
             <view class="weui-msg__desc">"您还没有相关订单信息"</view>
         </view>
         <view class="weui-msg__extra-area">
             <view class="weui-footer">
                 <view class="weui-footer__links">
-                    <view class="weui-footer__link">重庆存己科技提供技术支持</view>
+                    <view class="weui-footer__link">{{technicalSupport}}</view>
                 </view>
             </view>
         </view>
@@ -108,6 +118,8 @@
 
 </view>
 <!--else end-->
+
+
 
 </view>
 </view>

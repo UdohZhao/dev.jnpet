@@ -1,0 +1,83 @@
+{% extends "layouts.html" %}
+{% block content%}
+
+<!-- Page -->
+<div class="page animsition">
+  <div class="page-header">
+    <h1 class="page-title"># 商品管理</h1>
+  </div>
+  <div class="page-content">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">@ 添加商品 -> {{ cname }}</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" id="goodsForm" action="/admin/goods/add/type/{{ type }}/gcid/{{ gcid }}/id/{{ data.id }}" method="post">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">商品名称</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="cname" value="{{ data.cname }}" placeholder="请输入用户名">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">小贴士</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="tips" value="{{ data.tips }}" placeholder="请输入小贴士">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">原价</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="original_price" value="{{ data.original_price }}" placeholder="请输入原价">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">促销价</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="promotion_price" value="{{ data.promotion_price }}" placeholder="请输入促销价">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">库存</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="inventory" value="{{ data.inventory }}" placeholder="请输入库存">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">详情</label>
+            <div class="col-sm-10">
+            <script id="container" name="content" type="text/plain" style="height: 300px;">{% autoescape false %}{{ data.content }}{% endautoescape %}</script>
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-10">
+              <label class="radio-inline">
+                <input type="radio" name="status" value="0" {% if type == 0 %}checked="checked"{% endif %}> 上架
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="status" value="1" {% if type == 1 %}checked="checked"{% endif %} > 下架
+              </label>
+            </div>
+          </div> -->
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success">{% if data is empty %}下一步{% else %}提交{% endif %}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Page -->
+
+{% endblock %}
+
+{% block js %}
+<!-- 配置文件 -->
+<script src="/public/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script src="/public/ueditor/ueditor.all.js"></script>
+<script src="/apps/admin/views/goods/js/add.js"></script>
+{% endblock %}

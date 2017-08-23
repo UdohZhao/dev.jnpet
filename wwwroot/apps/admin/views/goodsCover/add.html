@@ -1,0 +1,64 @@
+{% extends "layouts.html" %}
+{% block content%}
+
+<!-- Page -->
+<div class="page animsition">
+  <div class="page-header">
+    <h1 class="page-title"># 商品管理</h1>
+  </div>
+  <div class="page-content">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">@ 添加商品封面</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" id="goodsCoverForm" action="/admin/goodsCover/add/gid/{{ gid }}/type/{{ type }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="type" value="{{ type }}">
+        <div id="coverContainer">
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">商品封面图片</label>
+            <div class="col-sm-10">
+              <div id="preview0" style="display: inline-block;">
+              {% if data.0.id is empty %}
+                <img id="imghead0" border="0" src="/apps/admin/views/assets/images/optimumSize.png" width="150" height="150" onclick="$('#previewImg0').click();">
+              {% else %}
+                <img id="imghead0" border="0" src="{{ data.0.img_path }}" width="150" height="150" onclick="delCover({{ data.0.id }},'{{ data.0.img_path }}');">
+              {% endif %}
+              </div>
+              <div id="preview1" style="display: inline-block;">
+              {% if data.1.id is empty %}
+                <img id="imghead1" border="0" src="/apps/admin/views/assets/images/optimumSize.png" width="150" height="150" onclick="$('#previewImg1').click();">
+              {% else %}
+                <img id="imghead1" border="0" src="{{ data.1.img_path }}" width="150" height="150" onclick="delCover({{ data.1.id }},'{{ data.1.img_path }}');">
+              {% endif %}
+              </div>
+              <div id="preview2" style="display: inline-block;">
+              {% if data.2.id is empty %}
+                <img id="imghead2" border="0" src="/apps/admin/views/assets/images/optimumSize.png" width="150" height="150" onclick="$('#previewImg2').click();">
+              {% else %}
+                <img id="imghead2" border="0" src="{{ data.2.img_path }}" width="150" height="150" onclick="delCover({{ data.2.id }},'{{ data.2.img_path }}');">
+              {% endif %}
+              </div>
+              <input type="file" onchange="previewImage(this,'preview0','imghead0','previewImg0')" style="display: none;" id="previewImg0" name="img_path[]" accept="image/*">
+              <input type="file" onchange="previewImage(this,'preview1','imghead1','previewImg1')" style="display: none;" id="previewImg1" name="img_path[]" accept="image/*">
+              <input type="file" onchange="previewImage(this,'preview2','imghead2','previewImg2')" style="display: none;" id="previewImg2" name="img_path[]" accept="image/*">
+            </div>
+          </div>
+        </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success">提 交</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Page -->
+
+{% endblock %}
+
+{% block js %}
+<script src="/apps/admin/views/goodsCover/js/add.js"></script>
+{% endblock %}

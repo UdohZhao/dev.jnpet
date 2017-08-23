@@ -10,8 +10,15 @@ class baseCtrl extends \core\icunji{
     // 站点名称
     $this->assign('websiteName',conf::get('WEBSITE_NAME','admin'));
     // 模版赋值
-    $userinfo = isset($_SESSION['userinfo']) ? $_SESSION['userinfo'] : '';
-    $this->assign('userinfo',$userinfo);
+    if (isset($_SESSION['userinfo'])) {
+      $this->assign('userinfo',$_SESSION['userinfo']);
+    } else {
+      header('Location:/admin/login/index');
+      die;
+    }
+
+
+
   }
 
 }

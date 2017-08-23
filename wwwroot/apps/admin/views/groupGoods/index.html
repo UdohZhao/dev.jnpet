@@ -1,0 +1,102 @@
+{% extends "layouts.html" %}
+{% block content%}
+
+<!-- Page -->
+<div class="page animsition">
+  <div class="page-header">
+    <h1 class="page-title"># 商品管理</h1>
+  </div>
+  <div class="page-content">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">@ 拼团信息</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">起始/结束时间</label>
+            <div class="col-sm-10">
+              <input size="16" type="text" readonly="readonly" class="form-control" style="width: 40%;display: inline-block;" value="{{ data.start_time|date('Y-m-d H:i') }}">
+                <->
+              <input size="16" type="text" readonly="readonly" class="form-control" style="width: 40%;display: inline-block;" value="{{ data.end_time|date('Y-m-d H:i') }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">拼团人数</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" readonly="readonly" value="{{ data.quantity }}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-10">
+            {% if data.status == 0 %}
+              <label class="radio-inline">
+                <input type="radio" checked="checked"> 进行中
+              </label>
+            {% else %}
+              <label class="radio-inline">
+                <input type="radio" checked="checked"> 结束
+              </label>
+            {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">类型</label>
+            <div class="col-sm-10">
+            {% if data.type == 0 %}
+              <label class="radio-inline">
+                <input type="radio" checked="checked"> 未激活订单
+              </label>
+            {% else %}
+              <label class="radio-inline">
+                <input type="radio" checked="checked"> 已激活订单
+              </label>
+            {% endif %}
+            </div>
+          </div>
+          {% if data.status == 0 and data.type == 1 %}
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="button" class="btn btn-danger" onclick="ggEnd({{ data.gid }});" style="float: right;" >结束拼团</button>
+            </div>
+          </div>
+          {% endif %}
+        </form>
+      <div class="panel-heading">
+        <h3 class="panel-title">@ 参团人数</h3>
+      </div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>唯一标识（openid）</th>
+              <th>昵称</th>
+              <th>头像</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>222</td>
+              <td>222</td>
+              <td>222</td>
+              <td>222</td>
+              <td>222</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <blockquote>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        </blockquote> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Page -->
+
+{% endblock %}
+
+{% block js %}
+<script src="/apps/admin/views/groupGoods/js/index.js"></script>
+{% endblock %}

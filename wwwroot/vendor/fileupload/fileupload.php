@@ -225,7 +225,7 @@ namespace vendor\fileupload;
 		/* 复制上传文件到指定的位置 */
 		private function copyFile() {
 			if(!$this->errorNum) {
-				$path = rtrim($this->path, '/').'/';
+				$path = rtrim($this->path, '/').'/'.date('Y-m-d').'/';
 				$path .= $this->newFileName;
 				if (@move_uploaded_file($this->tmpFileName, $path)) {
 					return true;

@@ -1,13 +1,13 @@
 // closeAnAccount.js
 //获取应用实例
-var app = getApp();
+var App = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    domain: app.data.domain,
+    domain: App.data.domain,
     addressTips: '请选择',
     postage: 0
   
@@ -17,7 +17,96 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+
+    console.log(options.iid);
+
+    var that = this;
+
+    // 获取订单id
+    var iid = options.iid;
+
+    that.setData({
+      iid: iid
+    });
+
+    // 友好体验开始
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    // 请求订单数据
+    wx.request({
+      url: App.data.domain + '/indent/index',
+      data: {
+        id: that.data.iid
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+
+        console.log(res.data);
+
+        // if 
+        if (res.data.code == 400) {
+
+          wx.showModal({
+            title: '请求失败',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+
+        } else {
+
+          // 赋值
+          that.setData({
+            iData: res.data.data
+          })
+
+          console.log(that.data.iData)
+
+          // 立即支付提示
+          if (that.data.iData.type == 0 && that.data.iData.status == 1) {
+            wx.showModal({
+              title: '小提示',
+              content: '请您在30分钟内完成支付 :)',
+              showCancel: false
+            })
+          }
+
+        }
+      },
+      fail: function (e) {
+        console.log(e)
+        wx.showModal({
+          title: '网络错误',
+          content: '请点击确定刷新页面!',
+          showCancel: false,
+          success: function (res) {
+            if (res.confirm) {
+              wx.reLaunch({
+                url: '/pages/main/main'
+              })
+            }
+          }
+        })
+      }
+    })
+
+    // 友好体验结束
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
+
+
+
   },
 
   /**
@@ -77,9 +166,11 @@ Page({
     wx.chooseAddress({
       success: function (res) {
 
+        console.log(res);
+
         that.setData({
           addressData: res,
-          addressTips: res.userName + '[' + res.telNumber + ']'
+          addressTips: res.userName + '-' + res.telNumber
         })
 
       }
@@ -104,8 +195,168 @@ Page({
    */
   submitIndent: function (e) {
 
-    console.log(e)
+    var that = this;
+
+    console.log(that.data.iid);
+    console.log(that.data.addressData);
+    console.log(that.data.message);
+
+    // if 
+    if (that.data.addressData == undefined) {
+      wx.showModal({
+        title: '错误提示',
+        content: '请选择收货地址 :(',
+        showCancel: false
+      })
+    } else {
+
+      // 友好体验开始
+      wx.showLoading({
+        title: '提交中',
+      })
+
+      // 请求订单数据
+      wx.request({
+        url: App.data.domain + '/indent/add/id/' + that.data.iid,
+        data: {
+          contacts: that.data.addressData.userName,
+          phone: that.data.addressData.telNumber,
+          address: that.data.addressData.provinceName + that.data.addressData.cityName + that.data.addressData.countyName + that.data.addressData.detailInfo,
+          postal_code: that.data.addressData.postalCode,
+          message: that.data.message
+        },
+        method: 'POST',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        success: function (res) {
+
+          console.log(res.data);
+
+          // if 
+          if (res.data.code == 400) {
+
+            wx.showModal({
+              title: '请求失败',
+              content: '请点击确定刷新页面!',
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.reLaunch({
+                    url: '/pages/main/main'
+                  })
+                }
+              }
+            })
+
+          } else {
+
+            wx.reLaunch({
+              url: '/pages/closeAnAccount/closeAnAccount?iid=' + res.data.data.iid
+            });
+
+          }
+        },
+        fail: function (e) {
+          console.log(e)
+          wx.showModal({
+            title: '网络错误',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+        }
+      })
+
+      // 友好体验结束
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 2000)
+
+    }    
+
+  },
+  /**
+   * 立即支付
+   */
+  iPay: function (e) {
+
+    var that = this
+
+    // 获取订单id，支付金额
+    console.log(that.data.iid); 
+    console.log(that.data.iData.total_money); 
+
+    // 友好体验开始
+    wx.showLoading({
+      title: '请求中',
+    })
+
+    // 请求支付是否超时
+    wx.request({
+      url: App.data.domain + '/indent/checkTimeout',
+      data: {
+        id: that.data.iid
+      },
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+
+        console.log(res.data);
+
+        // if 
+        if (res.data.code == 400) {
+
+          wx.showModal({
+            title: '支付提示',
+            content: res.data.msg,
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/me/me'
+                })
+              }
+            }
+          })
+
+        } else {
+
+          console.log('发起支付流程');
+
+        }
+      },
+      fail: function (e) {
+        console.log(e)
+        wx.showModal({
+          title: '网络错误',
+          content: '请点击确定刷新页面!',
+          showCancel: false,
+          success: function (res) {
+            if (res.confirm) {
+              wx.reLaunch({
+                url: '/pages/main/main'
+              })
+            }
+          }
+        })
+      }
+    })
+
+    // 友好体验结束
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
+
 
   }
+
 
 })

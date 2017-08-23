@@ -1,8 +1,8 @@
 // goodsDetail.js
 var WxParse = require('../../dist/wxParse/wxParse.js')
-//获取应用实例
-var app = getApp()
 var sliderWidth = 96 // 需要设置slider的宽度，用于计算中间位置
+//获取应用实例
+var App = getApp()
 Page({
 
   /**
@@ -22,8 +22,7 @@ Page({
     num: 1,
     // 使用data数据对象设置样式名
     minusStatus: 'disabled',
-    domain: app.data.domain,
-    radioValue: 0,
+    domain: App.data.domain,
     contactPathicon: '/dist/images/icon/service.png',
     cartPathicon: '/dist/images/icon/cart-default.png'
 
@@ -44,6 +43,82 @@ Page({
       }
     });
 
+    //调用应用实例的方法获取全局数据
+    App.getUserInfo(function (userInfo) {
+      //更新数据
+      that.setData({
+        userInfo: userInfo
+      })
+    });
+
+    // 获取商品id
+    var gid = options.gid;
+
+    // 友好体验开始
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    // 请求商品详细信息
+    wx.request({
+      url: App.data.domain + '/goods/getInfo/id/'+gid,
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        // if 
+        if (res.data.code == 400) {
+          wx.showModal({
+            title: '请求失败',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+        } else {
+
+          // 赋值
+          that.setData({
+            gData: res.data.data,
+            dcData: res.data.data.dcData,
+            radioItems: res.data.data.specification,
+            radioValue: res.data.data.specification[0].name
+          })
+
+         
+          WxParse.wxParse('content', 'html', that.data.gData.content, that, 0);
+
+          console.log(that.data.gData) 
+
+        }
+      },
+      fail: function (e) {
+        console.log(e)
+        wx.showModal({
+          title: '网络错误',
+          content: '请点击确定刷新页面!',
+          showCancel: false,
+          success: function (res) {
+            if (res.confirm) {
+              wx.reLaunch({
+                url: '/pages/main/main'
+              })
+            }
+          }
+        })
+      }
+    })
+
+    // 友好体验结束
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
+
   },
 
   /**
@@ -57,10 +132,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that = this 
-    that.setData({
-      imgUrls: ['/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg', '/dist/images/demo/TB18dUFQXXXXXb1XFXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg','/dist/images/demo/TB1qEGBRXXXXXXuXXXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg']
-    })
   
   },
 
@@ -111,7 +182,68 @@ Page({
       activeIndex: e.currentTarget.id
     })
 
-    console.log(e)
+    // 友好体验开始
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    // 请求首页数据（普通商品分类，普通商品）
+    if (that.data.activeIndex == 1) {
+      wx.request({
+        url: App.data.domain + '/goodsEstimate/getData/gid/' + that.data.gData.id,
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          // if 
+          if (res.data.code == 400) {
+            wx.showModal({
+              title: '请求失败',
+              content: '请点击确定刷新页面!',
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.reLaunch({
+                    url: '/pages/main/main'
+                  })
+                }
+              }
+            })
+          } else {
+
+            // 赋值
+            // that.setData({
+            //   gcData: res.data.data.gcData,
+            //   gData: res.data.data.gData,
+            //   banner: res.data.data.banner
+            // })
+
+            console.log(res.data);
+
+          }
+        },
+        fail: function (e) {
+          console.log(e)
+          wx.showModal({
+            title: '网络错误',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+        }
+      })
+    }
+
+    // 友好体验结束
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
 
   },
 
@@ -165,14 +297,16 @@ Page({
    * 单选框改变事件
    */
   radioChange: function (e) {
-    var radioItems = this.data.radioItems;
+    var that = this;
+    var radioItems = that.data.radioItems;
     for (var i = 0, len = radioItems.length; i < len; ++i) {
       radioItems[i].checked = radioItems[i].value == e.detail.value;
     }
-    this.setData({
+    that.setData({
       radioItems: radioItems,
       radioValue: e.detail.value
     });
+
   },
 
   /**
@@ -224,6 +358,9 @@ Page({
    * 确认加入购物车
    */
   addCartConfirm: function (e) {
+
+    var that = this;
+
     // 隐藏遮罩层
     var animation = wx.createAnimation({
       duration: 200,
@@ -243,6 +380,126 @@ Page({
       })
     }.bind(this), 200);
 
+    // 核心操作（获取选中的商品规格，购买数量）
+    console.log(that.data.radioValue);
+    console.log(that.data.num);
+    console.log(wx.getStorageSync('openid'));
+    console.log(that.data.gData.inventory);
+    console.log(that.data.gData.id);
+
+    // 检测登录态 
+    if (wx.getStorageSync('openid') == false) {
+      wx.showModal({
+        title: '登录态失效',
+        content: '请点击确定重新获取登录态!',
+        showCancel: false,
+        success: function (res) {
+          if (res.confirm) {
+            wx.reLaunch({
+              url: '/pages/main/main'
+            })
+          }
+        }
+      })
+    } else if (parseInt(that.data.num) > parseInt(that.data.gData.inventory)) {
+      wx.showModal({
+        title: '错误提示',
+        content: '当前购买数量已经超出库存!',
+        showCancel: false,
+        success: function (res) {
+          if (res.confirm) {
+            console.log(res)
+          }
+        }
+      })
+    } else {
+
+      // 友好体验开始
+      wx.showLoading({
+        title: '加入购物车中',
+      })
+
+      wx.request({
+        url: App.data.domain + '/cart/add',
+        data:{
+          openid: wx.getStorageSync('openid'),
+          specification: that.data.radioValue,
+          quantity: that.data.num,
+          gid: that.data.gData.id
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        method: 'POST',
+        success: function (res) {
+
+          // if 
+          if (res.data.code == 400) {
+            wx.showModal({
+              title: '请求失败',
+              content: '请点击确定刷新页面!',
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.reLaunch({
+                    url: '/pages/main/main'
+                  })
+                }
+              }
+            })
+          } else if (res.data.code === 401) {
+            wx.showModal({
+              title: '请求失败',
+              content: res.data.msg,
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  console.log(res);
+                }
+              }
+            })
+          } else {
+            wx.showModal({
+              title: '请求成功',
+              content: res.data.msg,
+              showCancel: true,
+              success: function (res) {
+                if (res.confirm) {
+                  wx.reLaunch({
+                    url: '/pages/cart/cart'
+                  })
+                } else {
+                  console.log('用户点击了取消');
+                }
+              }
+            })
+          }
+        },
+        fail: function (e) {
+          console.log(e)
+          wx.showModal({
+            title: '网络错误',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+        }
+      })
+      
+      // 友好体验结束
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 2000)
+
+    }
+
+
   },
 
   /**
@@ -259,8 +516,31 @@ Page({
    */
   contactMerchant: function (e) {
     wx.makePhoneCall({
-      phoneNumber: app.data.phone
+      phoneNumber: App.data.phone
     })
+  },
+
+  /**
+   * 优惠券
+   */
+  discountCoupon: function (e) {
+
+    console.log(e.currentTarget.dataset.iprice, e.currentTarget.dataset.price);
+
+    // 领取信息
+    wx.showModal({
+      title: '领券通知',
+      content: '您本次领取订单满' + e.currentTarget.dataset.iprice + '立减' + e.currentTarget.dataset.price+' ~（注：多次领取将覆盖）',
+      showCancel: false,
+      success: function (res) {
+        if (res.confirm) {
+         // 优惠券信息存入本地缓存
+          wx.setStorageSync('iprice', e.currentTarget.dataset.iprice);
+          wx.setStorageSync('price', e.currentTarget.dataset.price);
+        }
+      }
+    })
+
   }
 
 })

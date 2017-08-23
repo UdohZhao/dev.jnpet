@@ -1,0 +1,64 @@
+{% extends "layouts.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="/public/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+{% endblock %}
+
+{% block content%}
+
+<!-- Page -->
+<div class="page animsition">
+  <div class="page-header">
+    <h1 class="page-title"># 商品管理</h1>
+  </div>
+  <div class="page-content">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">@ 配置拼团 -> {{ cname }}</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" id="groupGoodsForm" action="/admin/groupGoods/add/gid/{{ gid }}/id/{{ data.id }}" method="post">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">起始/结束时间</label>
+            <div class="col-sm-10">
+              <input size="16" type="text" id="datetimeStart" readonly class="form-control" style="width: 40%;display: inline-block;" name="start_time" {% if data is empty %}value="{{ today }}"{% else %}value="{{ data.start_time|date('Y-m-d H:i') }}"{% endif %}>
+                <->
+              <input size="16" type="text" id="datetimeEnd" readonly class="form-control" style="width: 40%;display: inline-block;" name="end_time" {% if data is empty %}value="{{ tomorrow }}"{% else %}value="{{ data.end_time|date('Y-m-d H:i') }}"{% endif %}>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">拼团人数</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="quantity" value="{{ data.quantity }}" placeholder="请输入拼团限定人数">
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-10">
+              <label class="radio-inline">
+                <input type="radio" name="status" value="0" checked="checked"> 进行中
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="status" value="1"> 结束
+              </label>
+            </div>
+          </div> -->
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">提 交</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Page -->
+
+{% endblock %}
+
+{% block js %}
+<script src="/public/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/public/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="/apps/admin/views/groupGoods/js/add.js"></script>
+{% endblock %}

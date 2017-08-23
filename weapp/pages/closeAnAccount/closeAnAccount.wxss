@@ -30,6 +30,7 @@
   width: 100%;
   background-color: #ffffff;
   border-top: 2rpx solid #999;
+  z-index: 999;
 }
 .total-title{
   text-align: center;
@@ -46,6 +47,22 @@
 }
 .dam-board{
   height: 400rpx;
+}
+
+.gcname{
+  font-size: 32rpx;
+}
+
+.gprice{
+  font-size: 32rpx;
+}
+
+.gquantity{
+  font-size: 32rpx;
+}
+.message-info{
+  color: #999;
+  padding:10px 15px;
 }
 
 

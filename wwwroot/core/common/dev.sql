@@ -5,7 +5,7 @@ CREATE TABLE `admin_user`(
     `password` char(32) NOT NULL COMMENT '密码',
     `ctime` int(10) UNSIGNED NOT NULL COMMENT '时间',
     `status` tinyint(1) UNSIGNED NOT NULL COMMENT '状态？0>正常，1>冻结',
-    `type` tinyint(1) UNSIGNED NOT NULL COMMENT '类型？0>超级管理员，普通管理员',
+    `type` tinyint(1) UNSIGNED NOT NULL COMMENT '类型？0>超级管理员，1>普通管理员',
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 # 订单表
@@ -22,7 +22,7 @@ CREATE TABLE `indent`(
     `transport_number` varchar(64) NOT NULL COMMENT '运单编号',
     `itype` tinyint(1) UNSIGNED NOT NULL COMMENT '订单类型？0>普通，1>拼团',
     `type` tinyint(1) UNSIGNED NOT NULL COMMENT '类型？0>待付款，1>待发货，2>待收货，3>待评价，4>售后服务',
-    `status` tinyint(1) UNSIGNED NOT NULL COMMENT '状态？0>正常，1>取消订单，2>订单超时，3>申请退款，4>退款失败，5>退款成功',
+    `status` tinyint(1) UNSIGNED NOT NULL COMMENT '状态？0>待完善，1>正常，2>取消订单，3>订单超时，4>申请退款，5>退款失败，6>退款成功',
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 # 订单商品表
@@ -78,7 +78,6 @@ CREATE TABLE `goods_cover`(
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品封面表主键id',
     `gid` int(11) UNSIGNED NOT NULL COMMENT '关联商品表主键id',
     `img_path` varchar(255) NOT NULL COMMENT '图片路径',
-    `sort` tinyint(3) UNSIGNED NOT NULL COMMENT '排序',
     PRIMARY KEY (`id`),
     KEY (`gid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -87,7 +86,6 @@ CREATE TABLE `goods_specification`(
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '商品规格表主键id',
     `gid` int(11) UNSIGNED NOT NULL COMMENT '关联商品表主键id',
     `cname` varchar(50) NOT NULL COMMENT '名称',
-    `sort` tinyint(3) UNSIGNED NOT NULL COMMENT '排序',
     PRIMARY KEY (`id`),
     KEY (`gid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -142,9 +140,9 @@ CREATE TABLE `cart`(
 # 优惠券表
 CREATE TABLE `discount_coupon`(
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '优惠券表主键id',
-    `show_language` varchar(50) NOT NULL COMMENT '展示语，{$k}替换标识符',
-    `k` smallint(5) UNSIGNED NOT NULL COMMENT '键名',
-    `v` smallint(5) UNSIGNED NOT NULL COMMENT '键值',
+    `show_language` varchar(50) NOT NULL COMMENT '展示语',
+    `iprice` smallint(5) UNSIGNED NOT NULL COMMENT '订单价格',
+    `price` smallint(5) UNSIGNED NOT NULL COMMENT '优惠价格',
     `sort` tinyint(3) UNSIGNED NOT NULL COMMENT '排序',
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

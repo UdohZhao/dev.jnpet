@@ -1,10 +1,13 @@
 // cart.js
+var App = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    domain: App.data.domain,
+    technicalSupport: App.data.technicalSupport,
     carts: [],               // 购物车列表
     hasList: false,          // 列表是否有数据
     totalPrice: 0,           // 总价，初始为0
@@ -16,6 +19,79 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    var that = this;
+
+    // 登录态
+    if (wx.getStorageSync('openid') == false) {
+      wx.showModal({
+        title: '登录态失效',
+        content: '请点击确定重新获取登录态!',
+        showCancel: false,
+        success: function (res) {
+          if (res.confirm) {
+            wx.reLaunch({
+              url: '/pages/main/main'
+            })
+          }
+        }
+      })
+    } else {
+
+      // 友好体验开始
+      wx.showLoading({
+        title: '加载中',
+      })
+
+      // 请求购物车数据
+      wx.request({
+        url: App.data.domain + '/cart/index',
+        data: {
+          openid: wx.getStorageSync('openid')
+        },
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function (res) {
+          
+          console.log(res.data);
+
+          // if
+          if (res.data.data) {
+
+            that.setData({
+              hasList: true,
+              carts: res.data.data
+            });
+
+            that.getTotalPrice();
+
+          } 
+
+        },
+        fail: function (e) {
+          console.log(e)
+          wx.showModal({
+            title: '网络错误',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+        }
+      })
+
+      // 友好体验结束
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 2000)
+
+    }
   
   },
 
@@ -30,14 +106,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.setData({
-      hasList: true,
-      carts: [
-        { id: 1, title: '新鲜芹菜 半斤', image: '/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg', num: 4, price: 0.01, selected: true },
-        { id: 2, title: '素米 500g', image: '/dist/images/demo/TB18dUFQXXXXXb1XFXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg', num: 1, price: 0.03, selected: true }
-      ]
-    });
-    this.getTotalPrice();
+    
+    console.log('优惠券信息：' + wx.getStorageSync('iprice') + ',' + wx.getStorageSync('price'));
   
   },
 
@@ -94,19 +164,88 @@ Page({
    * 删除购物车当前商品
    */
   deleteList(e) {
-    const index = e.currentTarget.dataset.index;
-    let carts = this.data.carts;
-    carts.splice(index, 1);
-    this.setData({
-      carts: carts
-    });
-    if (!carts.length) {
-      this.setData({
-        hasList: false
-      });
-    } else {
-      this.getTotalPrice();
-    }
+
+    var that = this;
+
+    wx.showModal({
+      title: '确认删除吗？',
+      content: '删除后无法恢复！',
+      showCancel: true,
+      success: function (res) {
+        if (res.confirm) {
+
+          // 请求删除
+          wx.request({
+            url: App.data.domain + '/cart/del',
+            data: {
+              openid: wx.getStorageSync('openid'),
+              id: e.currentTarget.dataset.id
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+
+              console.log(res.data);
+
+              // if
+              if (res.data.code == 400) {
+                wx.showModal({
+                  title: '删除失败',
+                  content: res.data.msg,
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      console.log('用户点击了确定');
+                    }
+                  }
+                })
+              } else {
+
+                const index = e.currentTarget.dataset.index;
+                let carts = that.data.carts;
+                carts.splice(index, 1);
+                that.setData({
+                  carts: carts
+                });
+                if (!carts.length) {
+                  that.setData({
+                    hasList: false
+                  });
+                } else {
+                  that.getTotalPrice();
+                }
+
+              }
+
+            },
+            fail: function (e) {
+              console.log(e)
+              wx.showModal({
+                title: '网络错误',
+                content: '请点击确定刷新页面!',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.reLaunch({
+                      url: '/pages/main/main'
+                    })
+                  }
+                }
+              })
+            }
+          })
+
+
+
+
+        } else {
+          console.log('用户点击了取消');
+        }
+      }
+    })
+
+
   },
 
   /**
@@ -133,9 +272,9 @@ Page({
   addCount(e) {
     const index = e.currentTarget.dataset.index;
     let carts = this.data.carts;
-    let num = carts[index].num;
-    num = num + 1;
-    carts[index].num = num;
+    let quantity = carts[index].quantity;
+    quantity = Number(quantity) + 1;
+    carts[index].quantity = quantity;
     this.setData({
       carts: carts
     });
@@ -148,12 +287,12 @@ Page({
   minusCount(e) {
     const index = e.currentTarget.dataset.index;
     let carts = this.data.carts;
-    let num = carts[index].num;
-    if (num <= 1) {
+    let quantity = carts[index].quantity;
+    if (quantity <= 1) {
       return false;
     }
-    num = num - 1;
-    carts[index].num = num;
+    quantity = Number(quantity) - 1;
+    carts[index].quantity = quantity;
     this.setData({
       carts: carts
     });
@@ -168,7 +307,7 @@ Page({
     let total = 0;
     for (let i = 0; i < carts.length; i++) {         // 循环列表得到每个数据
       if (carts[i].selected) {                     // 判断选中才会计算价格
-        total += carts[i].num * carts[i].price;   // 所有价格加起来
+        total += carts[i].quantity * carts[i].gData.promotion_price;   // 所有价格加起来
       }
     }
     this.setData({                                // 最后赋值到data中渲染到页面
@@ -178,13 +317,125 @@ Page({
   },
 
   /**
+   * 判断数组是否为空
+   */
+  isEmpty: function (value) {
+    return (Array.isArray(value) && value.length === 0) || (Object.prototype.isPrototypeOf(value) && Object.keys(value).length === 0);
+  },
+
+  /**
    * 结算
    */
-  closeAnAccount(e){
+  closeAnAccount(e) {
+    
+    var that = this
 
-    wx.navigateTo({
-      url: '/pages/closeAnAccount/closeAnAccount?id=1'
-    })
+    let carts = that.data.carts;
+    var cid = new Array();
+    var gid = new Array();
+    var cname = new Array();
+    var specification = new Array();
+    var promotion_price = new Array();
+    var quantity = new Array();
+    var totalPrice = that.data.totalPrice;
+    for (let i = 0; i < carts.length; i++) {         // 循环列表得到每个数据
+      if (carts[i].selected) {
+        cid.push(carts[i].id);
+        gid.push(carts[i].gid);
+        cname.push(carts[i].gData.cname);
+        promotion_price.push(carts[i].gData.promotion_price);
+        specification.push(carts[i].specification);
+        quantity.push(carts[i].quantity);
+      }
+    }
+
+    // cid
+    if (that.isEmpty(cid)) {
+
+      wx.showModal({
+        title: '结算提示',
+        content: '请选中需要结算的商品 :(',
+        showCancel: false
+      })
+
+    } else {
+
+      // 订单数据
+      console.log(cid);
+      console.log(gid);
+      console.log(cname);
+      console.log(specification);
+      console.log(promotion_price);
+      console.log(quantity);
+      console.log(totalPrice);
+
+      // 结算数据同步缓存
+      // wx.setStorageSync('iData', iData['cid']);
+
+      // 友好体验开始
+      wx.showLoading({
+        title: '结算中',
+      })
+
+      // 生成待付款订单
+      wx.request({
+        url: App.data.domain + '/indent/add/openid/' + wx.getStorageSync('openid') + '/itype/0',
+        data: {
+          cid: cid,
+          gid: gid,
+          cname: cname,
+          specification: specification,
+          promotion_price: promotion_price,
+          quantity: quantity,
+          totalPrice: totalPrice
+        },
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        method: 'POST',
+        success: function (res) {
+
+          // if 
+          if (res.data.code == 400) {
+            wx.showModal({
+              title: '结算错误',
+              content: res.data.msg,
+              showCancel: false
+            })
+
+          } else {
+
+            // 前往订单页面
+            wx.navigateTo({
+              url: '/pages/closeAnAccount/closeAnAccount?iid=' + res.data.data.iid
+            })
+
+          }
+
+        },
+        fail: function (e) {
+          console.log(e)
+          wx.showModal({
+            title: '网络错误',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+        }
+      })
+
+      // 友好体验结束
+      setTimeout(function () {
+        wx.hideLoading()
+      }, 2000)
+
+    }
 
   }
 
