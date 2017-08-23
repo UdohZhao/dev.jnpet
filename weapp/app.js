@@ -3,6 +3,7 @@ App({
   data: {
     // 域名
     domain: "https://qds.icunji.com",
+    //domain: "http://dev.jnpet.local",
     phone: "18423031898",
     technicalSupport: "重庆存己科技提供技术支持"
   },

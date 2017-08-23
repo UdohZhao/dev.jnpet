@@ -1,5 +1,6 @@
 <?php
 use vendor\fileupload\fileupload;
+use core\lib\conf;
 /**
  * 浏览器友好的变量输出
  * @param mixed $var 变量
@@ -208,4 +209,67 @@ function TA($obj) {
  */
 function createIn(){
 return date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
+}
+
+/**
+ * 微信JsApi支付
+ * @param  string   $openId     openid
+ * @param  string   $goods      商品名称
+ * @param  string   $order_sn   订单号
+ * @param  string   $total_fee  金额
+ * @param  string   $attach     附加参数,我们可以选择传递一个参数,比如订单ID
+ */
+function wxJsapiPay($openId,$goods,$order_sn,$total_fee,$attach){
+    require_once ICUNJI.'/vendor/wxpay/WxPay.Api.php';
+    require_once ICUNJI.'/vendor/wxpay/WxPay.JsApiPay.php';
+    require_once ICUNJI.'/vendor/wxpay/log.php';
+
+    //初始化日志
+    $logHandler= new CLogFileHandler(ICUNJI."/vendor/wxpay/wxlogs/".date('Ymd').'.log');
+    $log = Log::Init($logHandler, 15);
+
+    $tools = new JsApiPay();
+    if(empty($openId)) $openId = $tools->GetOpenid();
+
+    $input = new WxPayUnifiedOrder();
+    $input->SetBody($goods);                 //商品名称
+    $input->SetAttach($attach);                  //附加参数,可填可不填,填写的话,里边字符串不能出现空格
+    $input->SetOut_trade_no($order_sn);          //订单号
+    $input->SetTotal_fee($total_fee);            //支付金额,单位:分
+    $input->SetTime_start(date("YmdHis"));       //支付发起时间
+    $input->SetTime_expire(date("YmdHis", time() + 600));//支付超时
+    $input->SetGoods_tag("1");
+    //支付回调验证地址
+    $input->SetNotify_url(conf::get('SERVER_NAME','weapp')."/indent/notify");
+    $input->SetTrade_type("JSAPI");              //支付类型
+    $input->SetOpenid($openId);                  //用户openID
+    $order = WxPayApi::unifiedOrder($input);    //统一下单
+
+    $jsApiParameters = $tools->GetJsApiParameters($order);
+
+    return $jsApiParameters;
+}
+
+/**
+* 生成签名
+* @return 签名，本函数不覆盖sign成员变量
+*/
+function makeSign($data){
+  //获取微信支付秘钥
+  Vendor('wxpay.WxPay#Api');
+  $key = \WxPayConfig::KEY;
+  // 去空
+  $data=array_filter($data);
+  //签名步骤一：按字典序排序参数
+  ksort($data);
+  $string_a=http_build_query($data);
+  $string_a=urldecode($string_a);
+  //签名步骤二：在string后加入KEY
+  //$config=$this->config;
+  $string_sign_temp=$string_a."&key=".$key;
+  //签名步骤三：MD5加密
+  $sign = md5($string_sign_temp);
+  // 签名步骤四：所有字符转为大写
+  $result=strtoupper($sign);
+  return $result;
 }
