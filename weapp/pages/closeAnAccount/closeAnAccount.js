@@ -331,6 +331,66 @@ Page({
 
           console.log('发起支付流程');
 
+          // 请求微信支付统一下单
+          wx.request({
+            url: App.data.domain + '/indent/indexAll',
+            data: {
+              itype: that.data.itype,
+              openid: wx.getStorageSync('openid')
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+
+              console.log(res.data);
+
+              // if 
+              if (res.data.code == 400) {
+
+                wx.showModal({
+                  title: '小提示',
+                  content: res.data.msg,
+                  showCancel: false
+                })
+
+                // 赋值
+                that.setData({
+                  iData: res.data.data
+                })
+
+                console.log(that.data.iData)
+
+
+              } else {
+
+                // 赋值
+                that.setData({
+                  iData: res.data.data
+                })
+
+                console.log(that.data.iData)
+
+              }
+            },
+            fail: function (e) {
+              console.log(e)
+              wx.showModal({
+                title: '网络错误',
+                content: '请点击确定刷新页面!',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.reLaunch({
+                      url: '/pages/main/main'
+                    })
+                  }
+                }
+              })
+            }
+          })
+
+
         }
       },
       fail: function (e) {
