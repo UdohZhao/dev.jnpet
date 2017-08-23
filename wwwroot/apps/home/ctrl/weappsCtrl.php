@@ -18,4 +18,13 @@ class weappsCtrl extends baseCtrl{
     }
   }
 
+  // 微信支付
+  public function wxPay(){
+    // Get
+    if (IS_GET === true) {
+      echo J($_GET);
+      die;
+    }
+  }
+
 }

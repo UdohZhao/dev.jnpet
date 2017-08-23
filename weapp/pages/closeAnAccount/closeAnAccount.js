@@ -333,9 +333,9 @@ Page({
 
           // 请求微信支付统一下单
           wx.request({
-            url: App.data.domain + '/indent/indexAll',
+            url: App.data.domain + '/weapps/wxPay',
             data: {
-              itype: that.data.itype,
+              iid: that.data.iid,
               openid: wx.getStorageSync('openid')
             },
             header: {
@@ -344,6 +344,7 @@ Page({
             success: function (res) {
 
               console.log(res.data);
+              return false;
 
               // if 
               if (res.data.code == 400) {
