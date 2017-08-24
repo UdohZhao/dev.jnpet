@@ -217,6 +217,8 @@ class indentCtrl extends baseCtrl{
     if (IS_GET === true) {
       // 获取订单数据
       $data = $this->db->getInfo($this->id);
+      echo J($data);
+      die;
       $total_money = bcmul($data['total_money'], 100, 0);
       // 统一下单
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$total_money,$this->id);
