@@ -344,7 +344,23 @@ Page({
             success: function (res) {
 
               console.log(res.data);
+              console.log(res.data.appId);
               return false;
+
+
+              // wx.requestPayment({
+              //   'timeStamp': '',
+              //   'nonceStr': '',
+              //   'package': '',
+              //   'signType': 'MD5',
+              //   'paySign': '',
+              //   'success': function (res) {
+              //   },
+              //   'fail': function (res) {
+              //   }
+              // })
+
+
 
               // if 
               if (res.data.code == 400) {

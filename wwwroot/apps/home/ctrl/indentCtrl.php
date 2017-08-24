@@ -220,8 +220,7 @@ class indentCtrl extends baseCtrl{
       $total_money = bcmul($data['total_money'], 100, 0);
       // 统一下单
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$total_money,$this->id);
-      echo json_encode($jsApiParameters,true);
-      //echo J($jsApiParameters);
+      echo J($jsApiParameters);
       die;
       // 暂时不走微信支付
       // $res = $this->db->save($this->id,array('type'=>1,'ptime'=>time()));
