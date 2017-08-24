@@ -346,11 +346,6 @@ Page({
             success: function (res) {
 
               console.log(res.data);
-              return false;
-
-              // 移除优惠券信息
-              wx.removeStorageSync('iprice');
-              wx.removeStorageSync('price');
 
               // 获取微信统一下单返回的结果
               var jsApiParameters = JSON.parse(res.data);
@@ -363,6 +358,10 @@ Page({
                 'signType': jsApiParameters.signType,
                 'paySign': jsApiParameters.paySign,
                 'success': function (res) {
+
+                  // 移除优惠券信息
+                  wx.removeStorageSync('iprice');
+                  wx.removeStorageSync('price');
 
                   wx.showModal({
                     title: '支付提示',
