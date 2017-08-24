@@ -220,7 +220,7 @@ class indentCtrl extends baseCtrl{
       $total_money = bcmul($data['total_money'], 100, 0);
       // 统一下单
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$total_money,$this->id);
-      return $jsApiParameters;
+      echo json_encode($jsApiParameters,true);
       die;
       // echo J($jsApiParameters);
       // die;
