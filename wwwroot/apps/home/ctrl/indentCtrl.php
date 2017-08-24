@@ -228,15 +228,6 @@ class indentCtrl extends baseCtrl{
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$data['total_money'],$this->id);
       echo J($jsApiParameters);
       die;
-      // 暂时不走微信支付
-      // $res = $this->db->save($this->id,array('type'=>1,'ptime'=>time()));
-      // if ($res) {
-      //   echo J(R(200,'商家将尽快发货 :)'));
-      //   die;
-      // } else {
-      //   echo J(R(400,'请尝试关闭小程序后重进 :('));
-      //   die;
-      // }
     }
   }
 
@@ -270,8 +261,9 @@ class indentCtrl extends baseCtrl{
         $openid = $data['openid'];          //付款人openID
         $total_fee = $data['total_fee'];    //付款金额
 
-        //更新数据库
-        //$this->updateDB($order_id,$order_sn,$openid,$total_fee);
+        // 微信支付成功后修改订单状态
+        $this->db->save($order_id,array('type'=>1,'ptime'=>time()));
+
     }else{
         $result = false;
     }
