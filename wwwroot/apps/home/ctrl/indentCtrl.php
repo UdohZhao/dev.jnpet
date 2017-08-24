@@ -220,17 +220,8 @@ class indentCtrl extends baseCtrl{
       $total_money = bcmul($data['total_money'], 100, 0);
       // 统一下单
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$total_money,$this->id);
-      $jsApi = array();
-      $jsApi['appId'] = $jsApiParameters['appId'];
-      $jsApi['nonceStr'] = $jsApiParameters['nonceStr'];
-      $jsApi['package'] = $jsApiParameters['package'];
-      $jsApi['signType'] = $jsApiParameters['signType'];
-      $jsApi['timeStamp'] = $jsApiParameters['timeStamp'];
-      $jsApi['paySign'] = $jsApiParameters['paySign'];
-      echo J($jsApi);
+      echo J($jsApiParameters);
       die;
-      // echo J($jsApiParameters);
-      // die;
       // 暂时不走微信支付
       // $res = $this->db->save($this->id,array('type'=>1,'ptime'=>time()));
       // if ($res) {
