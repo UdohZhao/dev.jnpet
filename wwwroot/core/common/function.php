@@ -256,8 +256,8 @@ function wxJsapiPay($openId,$goods,$order_sn,$total_fee,$attach){
 */
 function makeSign($data){
   //获取微信支付秘钥
-  Vendor('wxpay.WxPay#Api');
-  $key = \WxPayConfig::KEY;
+  require_once ICUNJI.'/vendor/wxpay/WxPay.Api.php';
+  $key = WxPayConfig::KEY;
   // 去空
   $data=array_filter($data);
   //签名步骤一：按字典序排序参数
