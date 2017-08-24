@@ -336,7 +336,9 @@ Page({
             url: App.data.domain + '/indent/wxPay',
             data: {
               id: that.data.iid,
-              openid: wx.getStorageSync('openid')
+              openid: wx.getStorageSync('openid'),
+              iprice: wx.setStorageSync('iprice', e.currentTarget.dataset.iprice),
+              price: wx.setStorageSync('price', e.currentTarget.dataset.price)
             },
             header: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -354,6 +356,10 @@ Page({
                 'signType': jsApiParameters.signType,
                 'paySign': jsApiParameters.paySign,
                 'success': function (res) {
+
+                  // 移除优惠券信息
+                  wx.removeStorageSync('iprice');
+                  wx.removeStorageSync('price');
 
                   wx.showModal({
                     title: '支付提示',

@@ -217,6 +217,12 @@ class indentCtrl extends baseCtrl{
     if (IS_GET === true) {
       // 获取订单数据
       $data = $this->db->getInfo($this->id);
+      // 优惠券（订单满多少立即多少？）
+      $iprice = isset($_GET['iprice']) ? intval($_GET['iprice']) : 0;
+      $price = isset($_GET['price']) ? intval($_GET['price']) : 0;
+      if ($data['total_money'] > $iprice) {
+        $data['total_money'] = bcsub($data['total_money'], $price, 0);
+      }
       $data['total_money'] = bcmul($data['total_money'], 100, 0);
       // 统一下单
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$data['total_money'],$this->id);
