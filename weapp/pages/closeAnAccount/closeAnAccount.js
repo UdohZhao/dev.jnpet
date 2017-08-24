@@ -343,22 +343,45 @@ Page({
             },
             success: function (res) {
 
-              console.log(res.data);
-              console.log(JSON.parse(res.data));
-              return false;
+              // 获取微信统一下单返回的结果
+              var jsApiParameters = JSON.parse(res.data);
 
+              console.log(jsApiParameters);
 
-              // wx.requestPayment({
-              //   'timeStamp': '',
-              //   'nonceStr': '',
-              //   'package': '',
-              //   'signType': 'MD5',
-              //   'paySign': '',
-              //   'success': function (res) {
-              //   },
-              //   'fail': function (res) {
-              //   }
-              // })
+              // 发起微信支付
+              wx.requestPayment({
+                'timeStamp': jsApiParameters.timeStamp,
+                'nonceStr': jsApiParameters.nonceStr,
+                'package': jsApiParameters.package,
+                'signType': jsApiParameters.signType,
+                'paySign': jsApiParameters.paySign,
+                'success': function (res) {
+
+                  wx.showModal({
+                    title: '支付提示',
+                    content: '支付成功 :)',
+                    showCancel: false,
+                    success: function (res) {
+                      if (res.confirm) {
+                        wx.reLaunch({
+                          url: '/pages/me/me'
+                        })
+                      }
+                    }
+                  })
+
+                },
+                'fail': function (res) {
+
+                  wx.showModal({
+                    title: '支付提示',
+                    content: '您取消了支付 :(',
+                    showCancel: false
+                  })
+
+                }
+
+              })
 
 
 
