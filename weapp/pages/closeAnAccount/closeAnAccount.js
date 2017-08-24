@@ -380,36 +380,8 @@ Page({
                   })
 
                 }
-
               })
 
-
-
-              // if 
-              if (res.data.code == 400) {
-
-                wx.showModal({
-                  title: '支付失败',
-                  content: res.data.msg,
-                  showCancel: false
-                })
-
-              } else {
-
-                wx.showModal({
-                  title: '支付成功',
-                  content: res.data.msg,
-                  showCancel: false,
-                  success: function (res) {
-                    if (res.confirm) {
-                      wx.reLaunch({
-                        url: '/pages/main/main'
-                      })
-                    }
-                  }
-                })
-
-              }
             },
             fail: function (e) {
               console.log(e)
