@@ -215,6 +215,10 @@ class indentCtrl extends baseCtrl{
   public function wxPay(){
     // Get
     if (IS_GET === true) {
+
+      echo J($this->openid);
+      die;
+
       // 获取订单数据
       $data = $this->db->getInfo($this->id);
       $data['total_money'] = bcmul($data['total_money'], 100, 0);
