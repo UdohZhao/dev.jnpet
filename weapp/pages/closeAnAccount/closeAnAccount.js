@@ -344,10 +344,7 @@ Page({
             success: function (res) {
 
               // 获取微信统一下单返回的结果
-              //var jsApiParameters = JSON.parse(res.data);
-
-              console.log(res.data);
-              return false;
+              var jsApiParameters = JSON.parse(res.data);
 
               // 发起微信支付
               wx.requestPayment({
