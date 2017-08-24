@@ -293,11 +293,6 @@ Page({
     console.log(that.data.iid); 
     console.log(that.data.iData.total_money); 
 
-    // 友好体验开始
-    wx.showLoading({
-      title: '请求中',
-    })
-
     // 请求支付是否超时
     wx.request({
       url: App.data.domain + '/indent/checkTimeout',
@@ -425,11 +420,6 @@ Page({
         })
       }
     })
-
-    // 友好体验结束
-    setTimeout(function () {
-      wx.hideLoading()
-    }, 2000)
 
 
   }
