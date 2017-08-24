@@ -287,7 +287,7 @@ Page({
    */
   iPay: function (e) {
 
-    var that = this
+    var that = this;
 
     // 获取订单id，支付金额
     console.log(that.data.iid); 
@@ -344,9 +344,10 @@ Page({
             success: function (res) {
 
               // 获取微信统一下单返回的结果
-              var jsApiParameters = JSON.parse(res.data);
+              //var jsApiParameters = JSON.parse(res.data);
 
-              console.log(jsApiParameters);
+              console.log(res.data);
+              return false;
 
               // 发起微信支付
               wx.requestPayment({
