@@ -337,20 +337,20 @@ Page({
             data: {
               id: that.data.iid,
               openid: wx.getStorageSync('openid'),
-              iprice: wx.setStorageSync('iprice', e.currentTarget.dataset.iprice),
-              price: wx.setStorageSync('price', e.currentTarget.dataset.price)
+              iprice: wx.getStorageSync('iprice'),
+              price: wx.getStorageSync('price')
             },
             header: {
               'content-type': 'application/x-www-form-urlencoded'
             },
             success: function (res) {
 
+              console.log(res.data);
+              return false;
+
               // 移除优惠券信息
               wx.removeStorageSync('iprice');
               wx.removeStorageSync('price');
-
-              console.log(res.data);
-              return false;
 
               // 获取微信统一下单返回的结果
               var jsApiParameters = JSON.parse(res.data);
