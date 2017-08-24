@@ -350,27 +350,25 @@ Page({
               if (res.data.code == 400) {
 
                 wx.showModal({
-                  title: '小提示',
+                  title: '支付失败',
                   content: res.data.msg,
                   showCancel: false
                 })
 
-                // 赋值
-                that.setData({
-                  iData: res.data.data
-                })
-
-                console.log(that.data.iData)
-
-
               } else {
 
-                // 赋值
-                that.setData({
-                  iData: res.data.data
+                wx.showModal({
+                  title: '支付成功',
+                  content: res.data.msg,
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/main/main'
+                      })
+                    }
+                  }
                 })
-
-                console.log(that.data.iData)
 
               }
             },
