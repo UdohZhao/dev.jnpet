@@ -66,7 +66,7 @@
         </block>
 
         <block wx:if="{{v.type == 1 && v.status == 1}}">
-          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="callPhone">联系商家</button>          
+          <button class="weui-btn mini-btn coo-btn" type="primary" size="mini" bindtap="contactMerchant">联系商家</button>          
         </block>
 
         <block wx:if="{{v.type == 2 && v.status == 1}}">

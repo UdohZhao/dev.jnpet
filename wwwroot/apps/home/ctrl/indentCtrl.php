@@ -220,7 +220,7 @@ class indentCtrl extends baseCtrl{
       // 优惠券（订单满多少立即多少？）
       $iprice = isset($_GET['iprice']) ? intval($_GET['iprice']) : 0;
       $price = isset($_GET['price']) ? intval($_GET['price']) : 0;
-      if ($iprice !=0 && $price !=0) {
+      if ($iprice != 0 && $price != 0 && $data['itype'] != 1) {
         if ($data['total_money'] > $iprice) {
           $data['total_money'] = bcsub($data['total_money'], $price, 0);
         }

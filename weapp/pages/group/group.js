@@ -1,5 +1,6 @@
 // group.js
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+var App = getApp();
 Page({
 
   /**
@@ -16,15 +17,89 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
     var that = this;
-    wx.getSystemInfo({
+
+    // 友好体验开始
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    // 请求拼团数据（拼团商品分类，拼团商品）
+    wx.request({
+      url: App.data.domain + '/group/index',
+      data: {
+        type: 1
+      },
+      header: {
+        'content-type': 'application/json'
+      },
       success: function (res) {
-        that.setData({
-          sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-          sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-        });
+
+        console.log(res.data);
+        return false;
+
+        // if 
+        if (res.data.code == 400) {
+
+          wx.showModal({
+            title: '请求失败',
+            content: '请点击确定刷新页面!',
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/main/main'
+                })
+              }
+            }
+          })
+
+        } else {
+
+          // 赋值
+          that.setData({
+            gcData: res.data.data.gcData,
+            gData: res.data.data.gData,
+            banner: res.data.data.banner
+          })
+
+          console.log(that.data.gcData)
+          console.log(that.data.gData)
+
+          // 获取设备基础信息
+          wx.getSystemInfo({
+            success: function (res) {
+              that.setData({
+                sliderLeft: (res.windowWidth / that.data.gcData.length - sliderWidth) / 2,
+                sliderOffset: res.windowWidth / that.data.gcData.length * that.data.activeIndex
+              });
+            }
+          })
+
+        }
+      },
+      fail: function (e) {
+        console.log(e)
+        wx.showModal({
+          title: '网络错误',
+          content: '请点击确定刷新页面!',
+          showCancel: false,
+          success: function (res) {
+            if (res.confirm) {
+              wx.reLaunch({
+                url: '/pages/main/main'
+              })
+            }
+          }
+        })
       }
-    });
+    })
+
+    // 友好体验结束
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 2000)
   
   },
 

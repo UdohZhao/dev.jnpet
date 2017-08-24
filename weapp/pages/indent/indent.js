@@ -279,8 +279,15 @@ Page({
       }
     })
 
-    
+  },
 
+  /**
+   * 联系商家
+   */
+  contactMerchant: function (e) {
+    wx.makePhoneCall({
+      phoneNumber: App.data.phone
+    })
   }
 
 })
