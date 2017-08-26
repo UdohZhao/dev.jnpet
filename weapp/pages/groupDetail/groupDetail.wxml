@@ -5,9 +5,9 @@
       <!--轮播图 start-->
       <swiper indicator-dots="{{indicatorDots}}"
         autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" class="cover-box"> 
-        <block wx:for="{{imgUrls}}" wx:key="index">
+        <block wx:for="{{gData.img_path}}" wx:key="i" wx:for-index="k" wx:for-item="v">
           <swiper-item>
-            <image src="{{item}}" class="slide-image"/>
+            <image src="{{domain}}{{v}}" class="slide-image"/>
           </swiper-item>
         </block>
       </swiper>
@@ -17,15 +17,14 @@
       <view class="weui-flex">
         <view class="weui-flex__item">
           <view class="placeholder">
-            <text class="team-price">¥{{ggInfo.promotion_price}}987.00</text>
-            <text class="alone-price">¥{{ggInfo.original_price}}333.00</text>
-            <text class="team-hint">拼团立减{{ggInfo.balance}}345.00元</text>
+            <text class="team-price">¥{{gData.promotion_price}}</text>
+            <text class="alone-price">¥{{gData.original_price}}</text>
+            <text class="team-hint">拼团立减{{gData.discounts}}元</text>
             <view>
-            <text class="offered">tips：已有<text class="offered-number">1{{ggInfo.numberPeople}}</text>人参团</text>
-            <text class="offered-br"></text>
             </view>
             <view class="commodity-title-box">
-            <text class="commodity-title">{{ggInfo.cname}}猫饲料</text> 
+            <text class="commodity-title">{{gData.cname}}</text>
+            <text class="goods-tips">{{gData.tips}}</text> 
             </view>
           </view>
         </view>
@@ -33,8 +32,8 @@
       <!--商品参数 end-->
 
 
-      <!--正在开团的小伙伴 start-->
-      <view class="weui-flex">
+      <!-- 正在开团的小伙伴 start-->
+       <!-- <view class="weui-flex">
         <view class="weui-flex__item">
           <view class="placeholder">
             <view class="alone-team-title">正在开团的小伙伴</view>
@@ -47,20 +46,28 @@
             </view>
           </view>
         </view>
+      </view>  -->
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <view class="placeholder">
+            <text class="gg-time">拼团开始／结束时间：{{gData.ggData.start_time}} - {{gData.ggData.end_time}}</text>
+            <text class="offered">tips：已有<text class="offered-number">1{{ggInfo.numberPeople}}</text>人参团</text>
+          </view>
+        </view>
       </view>
       <!--正在开团的小伙伴 end-->
 
 
       <!--拼团玩法 start-->
-      <view class="weui-flex">
+      <!-- <view class="weui-flex">
         <view class="weui-flex__item">
           <view class="placeholder">
           <view class="playing-method">拼团玩法</view>
           <image class="playing-method-img" src="/dist/images/demo/playing-method.png"></image>
           </view>
         </view>
-      </view>
-      <!--拼团玩法 end-->
+      </view> -->
+      <!--拼团玩法 end -->
 
 
       <!--商品详情 start-->
@@ -84,12 +91,12 @@
       <!--底部 start-->
       <view class="weui-flex bottom-flex">
         <view class="weui-flex__item alone-box" bindtap="showModal" data-buytype="0">
-        <view>¥{{ggInfo.original_price}}333.00</view>
+        <view>¥{{gData.original_price}}</view>
         <view>单独购买</view>
         </view>
         <view class="weui-flex__item team-box" bindtap="showModal" data-buytype="1">
-        <view>¥{{ggInfo.promotion_price}}111.00</view>
-        <view>{{ggInfo.ggData.group_quantity}}3人团</view>
+        <view>¥{{gData.promotion_price}}</view>
+        <view>{{gData.ggData.quantity}}人团</view>
         </view>
       </view>
       <!--底部 end-->
@@ -104,11 +111,11 @@
 <!--商品信息 start-->
 <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
 <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-    <image class="weui-media-box__thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg" />
+    <image class="weui-media-box__thumb" src="{{domain}}{{gData.img_path[0]}}" />
 </view>
 <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-    <view class="weui-media-box__title bottom-commodity-title">{{ggInfo.cname}}猫饲料</view>
-    <view class="weui-media-box__desc bottom-commodity-price">¥<block wx:if="{{buytype == 1}}">333.00{{ggInfo.promotion_price}}</block><block wx:else>666.00{{ggInfo.original_price}}</block></view>
+    <view class="weui-media-box__title bottom-commodity-title">{{gData.cname}}</view>
+    <view class="weui-media-box__desc bottom-commodity-price">¥<block wx:if="{{buytype == 1}}">{{gData.promotion_price}}</block><block wx:else>{{gData.original_price}}</block></view>
 </view>
 </view>
 <!--商品信息 end-->
@@ -160,7 +167,7 @@
 <!--购买数量 end-->
 
 <!--确定 start-->
-<view class="bottom-btn" bindtap="buyBtn" data-id="{{ggInfo.id}}">
+<view class="bottom-btn" bindtap="buyBtn">
 购 买
 </view>
 <!--确定 end-->

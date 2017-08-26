@@ -36,14 +36,18 @@ class mainCtrl extends baseCtrl{
       array_unshift($data['gcData'], $gcAll);
       // 请求全部商品数据
       $data['gData'] = $this->gdb->getAll($this->type);
-      // 请求相关商品封面图片
-      foreach ($data['gData'] AS $k => $v) {
-        $data['gData'][$k]['img_path'] = $this->gcodb->getCover($v['id']);
+      if ($data['gData']) {
+        // 请求相关商品封面图片
+        foreach ($data['gData'] AS $k => $v) {
+          $data['gData'][$k]['img_path'] = $this->gcodb->getCover($v['id']);
+        }
+        // 请求banner
+        $data['banner'] = $this->pdb->getBanner();
+      } else {
+        $data['gData'] = false;
       }
-      // 请求banner
-      $data['banner'] = $this->pdb->getBanner();
-      // 返回数据
-      echo J(R(200,'',$data));
+      ###
+      echo J(R(200,'受影响的操作 :)',$data));
       die;
     }
 

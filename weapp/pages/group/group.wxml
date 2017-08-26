@@ -2,28 +2,35 @@
     <view class="page__bd">
         <view class="weui-tab">
             <view class="weui-navbar">
-                <block wx:for="{{tabs}}" wx:key="*this">
-                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-                        <view class="weui-navbar__title">{{item}}</view>
+                <block wx:for="{{gcData}}" wx:key="i" wx:for-index="k" wx:for-item="v" >
+                    <view id="{{k}}" class="weui-navbar__item {{activeIndex == k ? 'weui-bar__item_on' : ''}}" data-gcid="{{v.id}}" bindtap="tabClick">
+                        <view class="weui-navbar__title">{{v.cname}}</view>
                     </view>
                 </block>
                 <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
             </view>
             <view class="weui-tab__panel">
-                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-                
+
+            <!-- 遍历体 start -->
+            <block wx:for="{{gcData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
+            <view class="weui-tab__content" hidden="{{activeIndex != k}}">
+
+              <!-- if start -->
+              <view wx:if="{{gData}}">
+                <!--weui-flex-->
+                <block wx:for="{{gData}}" wx:key="ii" wx:for-index="kk" wx:for-item="vv">
                   <!--weui-flex-->
-                  <view class="weui-flex" bindtap="gotoGroupDetail" data-id="1">
+                  <view class="weui-flex" bindtap="gotoGroupDetail" data-gid="{{vv.id}}">
                   <view class="weui-flex__item">
                   <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg"></image>
+                    <image class="img-thumb" src="{{domain}}{{vv.img_path}}"></image>
                     <view class="commodity-title">猫饲料</view>
                     <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
+                    <text class="team-price">¥{{vv.promotion_price}}</text>  
+                    <text class="alone-price">¥{{vv.original_price}}</text>  
                     </view>
                     <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
+                    <text class="team-title">{{vv.ggData.quantity}}人团</text>
                     <text class="startteam-title">去开团</text>
                     </view>
                     <view class="commodity-br"></view>
@@ -31,237 +38,35 @@
                   </view>
                   </view>
                   <!--weui-flex--> 
-
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB18dUFQXXXXXb1XFXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">狗饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
+                </block>
+                <!--weui-flex--> 
+              </view>
+              <view wx:else>
+                <view class="page">
+                    <view class="weui-msg">
+                        <view class="weui-msg__icon-area">
+                            <icon type="info" size="93"></icon>
+                        </view>
+                        <view class="weui-msg__text-area">
+                            <view class="weui-msg__title">暂无商品</view>
+                            <view class="weui-msg__desc">"等待商家上传商品"</view>
+                        </view>
+                        <view class="weui-msg__extra-area">
+                            <view class="weui-footer">
+                                <view class="weui-footer__links">
+                                    <view class="weui-footer__link">{{technicalSupport}}</view>
+                                </view>
+                            </view>
+                        </view>
                     </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB1qEGBRXXXXXXuXXXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">猪饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
                 </view>
-                <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-                
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">猫饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
+              </view> 
+              <!-- if end -->
 
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">猫饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB2UzmCdOC9MuFjSZFoXXbUzFXa_!!1795846248.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">猫饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                </view>
-                <view class="weui-tab__content" hidden="{{activeIndex != 2}}">
-                
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB18dUFQXXXXXb1XFXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">狗饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB18dUFQXXXXXb1XFXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">狗饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB18dUFQXXXXXb1XFXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">狗饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                </view>
-                <view class="weui-tab__content" hidden="{{activeIndex != 3}}">
-                
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB1qEGBRXXXXXXuXXXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">猪饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB1qEGBRXXXXXXuXXXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">猪饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                  <!--weui-flex-->
-                  <view class="weui-flex" bindtap="ggInfo" data-id="{{iv.id}}">
-                  <view class="weui-flex__item">
-                  <view class="placeholder">
-                    <image class="img-thumb" src="/dist/images/demo/TB1qEGBRXXXXXXuXXXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg"></image>
-                    <view class="commodity-title">猪饲料</view>
-                    <view class="commodity-price">
-                    <text class="team-price">¥397.00 </text>  
-                    <text class="alone-price">¥697.00 </text>  
-                    </view>
-                    <view class="commodity-btn">
-                    <text class="team-title">10人团</text>
-                    <text class="startteam-title">去开团</text>
-                    </view>
-                    <view class="commodity-br"></view>
-                  </view>
-                  </view>
-                  </view>
-                  <!--weui-flex-->
-
-                </view>
+            </view>
+            </block>
+            <!-- 遍历体 end  -->
+              
             </view>
         </view>
     </view>

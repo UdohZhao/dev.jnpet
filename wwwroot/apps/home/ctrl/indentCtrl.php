@@ -44,7 +44,7 @@ class indentCtrl extends baseCtrl{
           echo J(R(200,'受影响的操作 :)',array('iid'=>$this->id)));
           die;
         } else {
-          echo J(R(400,'请尝试关闭小程序后重进 :('));
+          echo J(R(400,'请尝试关闭小程序后重进 :(',false));
           die;
         }
       } else {
@@ -63,7 +63,7 @@ class indentCtrl extends baseCtrl{
           echo J(R(200,'受影响的操作 :)',array('iid'=>$iid)));
           die;
         } else {
-          echo J(R(400,'请尝试关闭小程序后重进 :('));
+          echo J(R(400,'请尝试关闭小程序后重进 :(',false));
           die;
         }
       }
@@ -81,7 +81,12 @@ class indentCtrl extends baseCtrl{
     } else {
       $idata['openid'] = $this->openid;
       $idata['inumber'] = createIn();
-      $idata['total_money'] = isset($_POST['totalPrice']) ? $_POST['totalPrice'] : 0;
+      if ($this->itype == 1) {
+        // 拼团商品计算价格
+        $idata['total_money'] = bcmul($_POST['promotion_price'], $_POST['quantity'], 2);
+      } else {
+        $idata['total_money'] = isset($_POST['totalPrice']) ? $_POST['totalPrice'] : 0;
+      }
       $idata['ctime'] = time();
       $idata['itype'] = $this->itype;
       $idata['type'] = 0;

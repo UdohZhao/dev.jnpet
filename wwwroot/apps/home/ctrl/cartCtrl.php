@@ -33,10 +33,10 @@ class cartCtrl extends baseCtrl{
       // 写入数据表
       $res = $this->db->add($data);
       if ($res) {
-        echo J(R(200,'是否立即前往购物车结算？ :)'));
+        echo J(R(200,'是否立即前往购物车结算？ :)',array('cid'=>$res)));
         die;
       } else {
-        echo J(R(400,'请尝试关闭小程序后重新进入 :('));
+        echo J(R(400,'请尝试关闭小程序后重新进入 :(',false));
         die;
       }
     }

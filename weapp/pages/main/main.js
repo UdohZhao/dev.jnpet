@@ -29,29 +29,15 @@ Page({
 
     // 请求首页数据（普通商品分类，普通商品）
     wx.request({
-      url: App.data.domain +'/main/getData/type/0',
+      url: App.data.domain +'/main/getData',
+      data: {
+        type: 0
+      },
       header: {
         'content-type': 'application/json'
       },
       success: function (res) {
-        // if 
-        if (res.data.code == 400) {
-
-          wx.showModal({
-            title: '请求失败',
-            content: '请点击确定刷新页面!',
-            showCancel: false,
-            success: function (res) {
-              if (res.confirm) {
-                wx.reLaunch({
-                  url: '/pages/main/main'
-                })
-              }
-            }
-          })
-          
-        } else {
-
+    
           // 赋值
           that.setData({
             gcData: res.data.data.gcData,
@@ -72,7 +58,6 @@ Page({
             }
           })
 
-        }
       },
       fail: function (e) {
         console.log(e)
@@ -173,22 +158,7 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
-        // if 
-        if (res.data.code == 400) {
-          wx.showModal({
-            title: '请求失败',
-            content: '请点击确定刷新页面!',
-            showCancel: false,
-            success: function (res) {
-              if (res.confirm) {
-                wx.reLaunch({
-                  url: '/pages/main/main'
-                })
-              }
-            }
-          })
-        } else {
-
+        
           // 赋值
           that.setData({
             gData: res.data.data.gData
@@ -196,7 +166,6 @@ Page({
 
           console.log(that.data.gData)
 
-        }
       },
       fail: function (e) {
         console.log(e)

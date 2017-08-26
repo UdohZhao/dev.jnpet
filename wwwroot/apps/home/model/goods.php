@@ -10,7 +10,7 @@ class goods extends model{
     // sql
     $sql = "
         SELECT
-                id , cname , promotion_price
+                id , cname , promotion_price , original_price
         FROM
                 `$this->table`
         WHERE
@@ -32,7 +32,7 @@ class goods extends model{
     // sql
     $sql = "
         SELECT
-                id , cname , promotion_price
+                id , cname , promotion_price , original_price
         FROM
                 `$this->table`
         WHERE

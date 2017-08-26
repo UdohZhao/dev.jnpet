@@ -30,8 +30,7 @@
   font-size: 32rpx;
 }
 .offered{
-  float: right;
-  font-size: 28rpx;
+  font-size: 32rpx;
   color: #999;
 }
 .offered-number{
@@ -171,3 +170,14 @@
   background-color: #ffffff;
 }
 
+.goods-tips{
+  display: block;
+  font-size: 32rpx;
+  color: #999;
+}
+
+.gg-time{
+  display: block;
+  font-size: 32rpx;
+  color: #ff2600;
+}
