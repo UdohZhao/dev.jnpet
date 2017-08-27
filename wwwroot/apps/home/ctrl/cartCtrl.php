@@ -25,7 +25,7 @@ class cartCtrl extends baseCtrl{
       // data
       $data = $this->getData();
       // 防止重复添加
-      $id = $this->db->getId($data['openid'],$data['specification']);
+      $id = $this->db->getId($data['openid'],$data['specification'],$_POST['gid']);
       if ($id) {
         echo J(R(401,'请勿重复添加 :('));
         die;

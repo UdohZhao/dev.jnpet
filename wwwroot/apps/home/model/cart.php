@@ -14,8 +14,8 @@ class cart extends model{
   /**
    * 读取id
    */
-  public function getId($openid,$specification){
-    return $this->get($this->table,'id',['openid'=>$openid,'specification'=>$specification]);
+  public function getId($openid,$specification,$gid){
+    return $this->get($this->table,'id',['openid'=>$openid,'specification'=>$specification,'gid'=>$gid]);
   }
 
   /**
