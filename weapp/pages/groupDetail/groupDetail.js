@@ -662,15 +662,14 @@ Page({
 
             // 生成待付款订单
             wx.request({
-              url: App.data.domain + '/indent/add/openid/' + wx.getStorageSync('openid') + '/itype/1',
+              url: App.data.domain + '/indent/add/openid/' + wx.getStorageSync('openid') + '/itype/0',
               data: {
                 cid: res.data.data.cid,
                 gid: that.data.gData.id,
                 cname: that.data.gData.cname,
                 specification: that.data.radioValue,
                 promotion_price: promotion_price,
-                quantity: that.data.num,
-                buytype: that.data.buytype
+                quantity: that.data.num
               },
               header: {
                 'content-type': 'application/x-www-form-urlencoded'

@@ -6,6 +6,8 @@ use apps\home\model\indentGoods;
 use apps\home\model\indentTakeDelivery;
 use apps\home\model\cart;
 use apps\home\model\goodsCover;
+use apps\home\model\groupGoods;
+use apps\home\model\groupJoin;
 class indentCtrl extends baseCtrl{
   public $openid;
   public $itype;
@@ -14,6 +16,8 @@ class indentCtrl extends baseCtrl{
   public $itddb;
   public $cdb;
   public $gcodb;
+  public $ggdb;
+  public $gjdb;
   public $id;
   // 构造方法
   public function _auto(){
@@ -24,6 +28,8 @@ class indentCtrl extends baseCtrl{
     $this->itddb = new indentTakeDelivery();
     $this->cdb = new cart();
     $this->gcodb = new goodsCover();
+    $this->ggdb = new groupGoods();
+    $this->gjdb = new groupJoin();
     $this->id = isset($_GET['id']) ? intval($_GET['id']) : 0;
   }
 
@@ -189,6 +195,16 @@ class indentCtrl extends baseCtrl{
       // 时间戳比较
       $ctime = bcadd($ctime, 1800, 0);
       if ($ctime < time()) {
+        // 获取订单类型，1为拼团
+        $itype = $this->db->getItype($this->id);
+        if ($itype == 1) {
+          // 获取订单商品id
+          $gid = $this->igdb->getGid($this->id);
+          // 获取拼团商品信息主键id
+          $ggid = $this->ggdb->getId($gid);
+          // 删除相关拼团加入数据
+          $this->gjdb->del($this->openid,$ggid);
+        }
         // 修改为超时状态
         $this->db->save($this->id,array('status'=>3));
         echo J(R(400,'当前订单已经超时 :('));
@@ -205,6 +221,16 @@ class indentCtrl extends baseCtrl{
   public function coo(){
     // Get
     if (IS_GET === true) {
+      // 获取订单类型，1为拼团
+      $itype = $this->db->getItype($this->id);
+      if ($itype == 1) {
+        // 获取订单商品id
+        $gid = $this->igdb->getGid($this->id);
+        // 获取拼团商品信息主键id
+        $ggid = $this->ggdb->getId($gid);
+        // 删除相关拼团加入数据
+        $this->gjdb->del($this->openid,$ggid);
+      }
       $res = $this->db->save($this->id,array('status'=>2));
       if ($res) {
         echo J(R(200,'受影响的操作 :)'));

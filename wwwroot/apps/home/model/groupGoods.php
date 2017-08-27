@@ -25,6 +25,13 @@ class groupGoods extends model{
     return $res->rowCount();
   }
 
+  /**
+   * 读取id
+   */
+  public function getId($gid){
+    return $this->get($this->table,'id',['gid'=>$gid]);
+  }
+
 
 
 }

@@ -29,7 +29,7 @@
     <view class="commodity-content">
       <text class="content-freight">运费：免运费</text>
       <text class="content-inventory">库存：{{gData.inventory}}</text>
-      <text class="content-salesvolume">销量：0</text>
+      <text class="content-salesvolume">销量：{{gData.igData.count}}</text>
     </view>
   </view>
 </view>

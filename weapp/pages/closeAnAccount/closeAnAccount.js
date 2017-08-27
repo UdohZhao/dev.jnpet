@@ -302,7 +302,8 @@ Page({
     wx.request({
       url: App.data.domain + '/indent/checkTimeout',
       data: {
-        id: that.data.iid
+        id: that.data.iid,
+        openid: wx.getStorageSync('openid')
       },
       header: {
         'content-type': 'application/json'

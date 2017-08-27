@@ -55,6 +55,13 @@ class indent extends model{
     return $this->get($this->table,'ctime',['id'=>$id]);
   }
 
+  /**
+   * 读取订单类型
+   */
+  public function getItype($id){
+    return $this->get($this->table,'itype',['id'=>$id]);
+  }
+
 
 
 }

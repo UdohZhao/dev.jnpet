@@ -18,5 +18,19 @@ class indentGoods extends model{
     return $this->select($this->table,'*',['iid'=>$iid]);
   }
 
+  /**
+   * 读取订单商品id
+   */
+  public function getGid($iid){
+    return $this->get($this->table,'gid',['iid'=>$iid]);
+  }
+
+  /**
+   * 读取商品销售量
+   */
+  public function getgCorrelation($gid){
+    return $this->count($this->table,['gid'=>$gid]);
+  }
+
 }
 

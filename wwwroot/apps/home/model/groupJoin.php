@@ -25,5 +25,13 @@ class groupJoin extends model{
     return $this->count($this->table,['ggid'=>$ggid]);
   }
 
+  /**
+   * 删除相关拼团加入数据
+   */
+  public function del($openid,$ggid){
+    $res = $this->delete($this->table,['openid'=>$openid,'ggid'=>$ggid]);
+    return $res->rowCount();
+  }
+
 }
 

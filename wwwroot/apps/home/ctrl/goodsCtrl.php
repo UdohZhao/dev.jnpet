@@ -6,12 +6,18 @@ use apps\home\model\goodsCover;
 use apps\home\model\goodsSpecification;
 use apps\home\model\discountCoupon;
 use apps\home\model\groupGoods;
+use apps\home\model\groupJoin;
+use apps\home\model\indent;
+use apps\home\model\indentGoods;
 class goodsCtrl extends baseCtrl{
   public $db;
   public $gcodb;
   public $gsdb;
   public $dcdb;
   public $ggdb;
+  public $gjdb;
+  public $idb;
+  public $igdb;
   public $id;
   public $type;
   // 构造方法
@@ -21,6 +27,9 @@ class goodsCtrl extends baseCtrl{
     $this->gsdb = new goodsSpecification();
     $this->dcdb = new discountCoupon();
     $this->ggdb = new groupGoods();
+    $this->gjdb = new groupJoin();
+    $this->idb = new indent();
+    $this->igdb = new indentGoods();
     $this->id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     $this->type = isset($_GET['type']) ? intval($_GET['type']) : 0;
   }
@@ -51,9 +60,13 @@ class goodsCtrl extends baseCtrl{
           $data['ggData'] = $this->ggdb->getCorrelation($this->id);
           $data['ggData']['start_time'] = date('Y-m-d H:i',$data['ggData']['start_time']);
           $data['ggData']['end_time'] = date('Y-m-d H:i',$data['ggData']['end_time']);
+          // 读取参团人数
+          $data['gjData']['count'] = $this->gjdb->getCcount($data['ggData']['id']);
         } else {
           // 优惠券
           $data['dcData'] = $this->dcdb->getAll();
+          // 销量
+          $data['igData']['count'] = $this->igdb->getgCorrelation($this->id);
         }
         echo J(R(200,'',$data));
         die;

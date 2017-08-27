@@ -214,7 +214,8 @@ Page({
           wx.request({
             url: App.data.domain + '/indent/coo',
             data: {
-              id: e.currentTarget.dataset.id
+              id: e.currentTarget.dataset.id,
+              openid: wx.getStorageSync('openid')
             },
             header: {
               'content-type': 'application/json'
