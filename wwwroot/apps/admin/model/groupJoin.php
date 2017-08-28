@@ -10,4 +10,21 @@ class groupJoin extends model{
     $res = $this->delete($this->table,['gid'=>$gid]);
     return $res->rowCount();
   }
+
+  /**
+   * 读取相关参团用户
+   */
+  public function getCorrelation($ggid){
+    return $this->select($this->table,'*',['ggid'=>$ggid]);
+  }
+
+  /**
+   * 删除相关参团用户
+   */
+  public function delCorrelation($ggid,$openid){
+    $res = $this->delete($this->table,['ggid'=>$ggid,'openid'=>$openid]);
+    return $res->rowCount();
+  }
+
+
 }

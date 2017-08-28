@@ -3,18 +3,26 @@ namespace apps\admin\ctrl;
 use core\lib\conf;
 use apps\admin\model\goods;
 use apps\admin\model\groupGoods;
+use apps\admin\model\groupJoin;
+use apps\admin\model\indent;
 class groupGoodsCtrl extends baseCtrl{
   public $gid;
   public $gdb;
   public $db;
+  public $gjdb;
+  public $idb;
   public $id;
+  public $iid;
   // 构造方法
   public function _auto(){
     $this->gid = isset($_GET['gid']) ? intval($_GET['gid']) : 0;
     $this->id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    $this->iid = isset($_GET['iid']) ? intval($_GET['iid']) : 0;
     $this->assign('gid',$this->gid);
     $this->gdb = new goods();
     $this->db = new groupGoods();
+    $this->gjdb = new groupJoin();
+    $this->idb = new indent();
   }
 
   // 配置拼团页面
@@ -24,10 +32,10 @@ class groupGoodsCtrl extends baseCtrl{
       // 读取商品名称
       $cname = $this->gdb->getCname($this->gid);
       // 读取当前商品拼团信息
-      $data = $this->db->getInfo($this->gid,0);
+      //$data = $this->db->getInfo($this->gid,0);
       // assign
       $this->assign('cname',$cname);
-      $this->assign('data',$data);
+      //$this->assign('data',$data);
       $this->assign('today',date('Y-m-d H:i')); // 今天
       $this->assign('tomorrow',date("Y-m-d H:i",strtotime("+7 day"))); // +7天
       // display
@@ -40,6 +48,7 @@ class groupGoodsCtrl extends baseCtrl{
       $data = $this->getData();
       // id
       if ($this->id) {
+        // 更新数据表
         $res = $this->db->save($this->id,$data);
       } else {
         // 写入数据表
@@ -70,12 +79,80 @@ class groupGoodsCtrl extends baseCtrl{
   // 拼团详情页面
   public function index(){
     // 读取拼团信息
-    $data = $this->db->getInfo($this->gid,0);
+    $data = $this->db->getInfo($this->gid);
+    // 读取参团用户
+    $data['gjData'] = $this->gjdb->getCorrelation($data['id']);
+    if (!$data['gjData']) {
+      $data['gjData'] = false;
+    } else {
+      foreach ($data['gjData'] AS $k => $v) {
+        $data['gjData'][$k]['iid'] = $this->iid;
+        $data['gjData'][$k]['type'] = $this->idb->getType($this->iid,$v['openid']);
+      }
+    }
     // assign
     $this->assign('data',$data);
     // display
     $this->display('groupGoods','index.html');
     die;
   }
+
+  /**
+   * 结束拼团
+   */
+  public function gEnd(){
+    // Ajax
+    if (IS_AJAX === true) {
+      $res = $this->db->save($this->id,array('status'=>1));
+      if ($res) {
+        echo J(R(200,'受影响的操作 :)'));
+        die;
+      } else {
+        echo J(R(400,'请尝试刷新页面后重试 :('));
+        die;
+      }
+    }
+  }
+
+  /**
+   * 拼团列表页面
+   */
+  public function listSs(){
+    // Get
+    if (IS_GET === true) {
+      // 读取商品名称
+      $cname = $this->gdb->getCname($this->gid);
+      // 读取相关拼团数据
+      $data = $this->db->getCorrelation($this->gid);
+      // assign
+      $this->assign('cname',$cname);
+      $this->assign('data',$data);
+      // display
+      $this->display('groupGoods','listSs.html');
+      die;
+    }
+  }
+
+  /**
+   * 获取拼团配置
+   */
+  public function getConfig(){
+    // Ajax
+    if (IS_AJAX === true) {
+      // 读取拼团信息（必须要在进行中）
+      $status = 0;
+      $res = $this->db->getConfig($this->gid,$status);
+      if ($res) {
+        echo J(R(400,'最近一次拼团还未结束 :('));
+        die;
+      } else {
+        echo J(R(200,'受影响的操作 :)'));
+        die;
+      }
+    }
+
+  }
+
+
 
 }

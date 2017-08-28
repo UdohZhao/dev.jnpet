@@ -28,20 +28,6 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
-            <div class="col-sm-10">
-            {% if data.status == 0 %}
-              <label class="radio-inline">
-                <input type="radio" checked="checked"> 进行中
-              </label>
-            {% else %}
-              <label class="radio-inline">
-                <input type="radio" checked="checked"> 结束
-              </label>
-            {% endif %}
-            </div>
-          </div>
-          <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">类型</label>
             <div class="col-sm-10">
             {% if data.type == 0 %}
@@ -55,12 +41,26 @@
             {% endif %}
             </div>
           </div>
-          {% if data.status == 0 and data.type == 1 %}
           <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="button" class="btn btn-danger" onclick="ggEnd({{ data.gid }});" style="float: right;" >结束拼团</button>
+            <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-10">
+            {% if data.status == 0 %}
+              <label class="radio-inline">
+                <input type="radio" checked="checked"> 进行中
+              </label>
+            {% else %}
+              <label class="radio-inline">
+                <input type="radio" checked="checked"> 已结束
+              </label>
+            {% endif %}
             </div>
           </div>
+          {% if data.status == 0 and data.type == 1 %}
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-danger" onclick="ggEnd({{ data.id }});" style="float: right;" >结束拼团</button>
+              </div>
+            </div>
           {% endif %}
         </form>
       <div class="panel-heading">
@@ -70,25 +70,56 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>参团时间</th>
               <th>唯一标识（openid）</th>
-              <th>昵称</th>
               <th>头像</th>
+              <th>昵称</th>
               <th>操作</th>
             </tr>
           </thead>
           <tbody>
+          {% if data.gjData %}
+            {% for k,v in data.gjData %}
+              <tr>
+              {% if v.type == 0 %}
+                <td><span class="label label-danger">待付款</span></td>
+              {% endif %}
+              {% if v.type == 1 %}
+                <td><span class="label label-info">待发货</span></td>
+              {% endif %}
+              {% if v.type == 2 %}
+                <td><span class="label label-info">待收货</span></td>
+              {% endif %}
+              {% if v.type == 3 %}
+                <td><span class="label label-info">已收货</span></td>
+              {% endif %}
+                <td>{{ v.ctime|date('Y-m-d H:i') }}</td>
+                <td>{{ v.openid }}</td>
+                <td>
+                  <img src="{{ v.avatarurl }}" class="img-responsive" style="width: 90px;height: 90px;">
+                </td>
+                <td>{{ v.nickname }}</td>
+                <td>
+                {% if v.type == 0 %}
+                  <button type="button" class="btn btn-primary btn-xs" onclick="coo({{ v.iid }},{{ v.ggid }},'{{ v.openid }}');">取消订单</button>
+                {% endif %}
+                {% if data.type == 1 and v.type == 1 %}
+                  <button type="button" class="btn btn-primary btn-xs" onclick="commonSs({{ v.iid }},2);">已发货</button>
+                {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
             <tr>
-              <td>222</td>
-              <td>222</td>
-              <td>222</td>
-              <td>222</td>
-              <td>222</td>
+              <td colspan="6">
+                <blockquote>
+                  <p>暂无数据 :(</p>
+                </blockquote>
+              </td>
             </tr>
+          {% endif %}
           </tbody>
         </table>
-        <!-- <blockquote>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        </blockquote> -->
       </div>
     </div>
   </div>

@@ -14,7 +14,7 @@
   <div class="page-content">
     <div class="panel">
       <div class="panel-heading">
-        <h3 class="panel-title">@ 订单列表</h3>
+        <h3 class="panel-title">@ {% if itype == 0 %}普通{% elseif itype == 1 %}拼团{% endif %}订单列表</h3>
       </div>
       <form action="/admin/goodsCategory/index/type/{{ type }}" method="post">
         <div class="input-group" style="width: 300px;float: right;margin-right: 30px;">
@@ -28,8 +28,13 @@
         <li role="presentation" {% if type == 0 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/0">待付款</a></li>
         <li role="presentation" {% if type == 1 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/1">待发货</a></li>
         <li role="presentation" {% if type == 2 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/2">待收货</a></li>
-        <li role="presentation" {% if type == 3 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/3">待评价</a></li>
-        <li role="presentation" {% if type == 4 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/4">售后服务</a></li>
+        {% if itype == 0 %}
+          <li role="presentation" {% if type == 3 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/3">待评价</a></li>
+          <li role="presentation" {% if type == 4 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/4">售后服务</a></li>
+        {% endif %}
+        {% if itype == 1 %}
+          <li role="presentation" {% if type == 3 %}class="active"{% endif %}><a href="/admin/indent/index/itype/{{ itype }}/type/3">已收货</a></li>
+        {% endif %}
       </ul>
       <div class="panel-body">
         <table class="table table-hover">
@@ -50,23 +55,57 @@
           {% for k,v in data %}
             <tr>
               <td>
-                {% if v.itype == 0 %}
-                  <span class="label label-success">普通</span>
-                {% else %}
-                  <span class="label label-danger">拼团</span>
+                {% if v.status == 1 %}
+                  <span class="label label-success">正常</span>
+                {% elseif v.status == 4 %}
+                  <span class="label label-danger">申请退款</span>
+                {% elseif v.status == 5 %}
+                  <span class="label label-danger">退款失败</span>
+                {% elseif v.status == 6 %}
+                  <span class="label label-danger">退款成功</span>
                 {% endif %}
               </td>
               <td>{{ v.ctime|date('Y-m-d H:i') }}</td>
               <td>{{ v.inumber }}</td>
-              <td>{{ v.total_money }}</td>
+              <td>¥{{ v.total_money }}</td>
               <td>{{ v.remarks }}</td>
-              <td>111</td>
-              <td>222</td>
               <td>
-                <button type="button" class="btn btn-primary btn-xs" onclick="edit({{ v.id }});">编辑</button>
+                {% for kk,vv in v.igData %}
+                  <dl class="dl-horizontal">
+                    <dt>商品名称</dt>
+                    <dd>{{ vv.goods_name }}</dd>
+                    <dt>商品规格</dt>
+                    <dd>{{ vv.goods_specification }}</dd>
+                    <dt>商品价格</dt>
+                    <dd>¥{{ vv.goods_price }}</dd>
+                    <dt>购买数量</dt>
+                    <dd>x{{ vv.quantity }}</dd>
+                  </dl>
+                {% endfor %}
+              </td>
+              <td>
+                  <dl class="dl-horizontal">
+                    <dt>联系人</dt>
+                    <dd>{{ v.itdData.contacts }}</dd>
+                    <dt>手机号码</dt>
+                    <dd>{{ v.itdData.phone }}</dd>
+                    <dt>详细地址</dt>
+                    <dd>{{ v.itdData.address }}</dd>
+                    <dt>邮政编码</dt>
+                    <dd>{{ v.itdData.postal_code }}</dd>
+                  </dl>
+              </td>
+              <td>
+                {% if v.type == 1 and itype == 0 %}
+                  <button type="button" class="btn btn-primary btn-xs" onclick="commonSs({{ v.id }},2);">已发货</button>
+                {% endif %}
+                {% if itype == 1 %}
+                  <button type="button" class="btn btn-primary btn-xs" onclick="groupInfo({{ v.id }},{{ v.igData.0.gid }});">拼团详情</button>
+                {% endif %}
+                <!-- <button type="button" class="btn btn-primary btn-xs" onclick="edit({{ v.id }});">编辑</button>
                 <button type="button" class="btn btn-default btn-xs" onclick="del({{ v.id }});">删除</button>
                 <button type="button" class="btn btn-primary btn-xs" onclick="addGoods({{ type }},{{ v.id }});">添加商品</button>
-                <button type="button" class="btn btn-primary btn-xs" onclick="indexGoods({{ type }},{{ v.id }});">商品列表</button>
+                <button type="button" class="btn btn-primary btn-xs" onclick="indexGoods({{ type }},{{ v.id }});">商品列表</button> -->
               </td>
             </tr>
           {% endfor %}
@@ -95,5 +134,5 @@
 {% endblock %}
 
 {% block js %}
-
+<script src="/apps/admin/views/indent/js/index.js"></script>
 {% endblock %}

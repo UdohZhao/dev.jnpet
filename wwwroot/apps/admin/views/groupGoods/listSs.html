@@ -1,0 +1,67 @@
+{% extends "layouts.html" %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content%}
+
+<!-- Page -->
+<div class="page animsition">
+  <div class="page-header">
+    <h1 class="page-title"># 拼团管理</h1>
+  </div>
+  <div class="page-content">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">@ 拼团列表页面 -> {{ cname }}</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>开始时间</th>
+              <th>结束时间</th>
+              <th>类型</th>
+              <th>状态</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for k,v in data %}
+            <tr>
+              <td></td>
+              <td>{{ v.start_time|date('Y-m-d H:i') }}</td>
+              <td>{{ v.end_time|date('Y-m-d H:i') }}</td>
+              {% if v.type == 1 %}
+                <td><p class="text-danger">{已激活订单}</p></td>
+              {% else %}
+                <td><p class="text-success">{未激活订单}</p></td>
+              {% endif %}
+              {% if v.status == 1 %}
+                <td><p class="text-danger">{结束}</p></td>
+              {% else %}
+                <td><p class="text-success">{进行中}</p></td>
+              {% endif %}
+              <td>
+                <button type="button" class="btn btn-primary btn-xs" onclick="ggInfo({{ gid }})">查看详情</button>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        <!-- <blockquote>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        </blockquote> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Page -->
+
+{% endblock %}
+
+{% block js %}
+<script src="/apps/admin/views/groupGoods/js/listSs.js"></script>
+{% endblock %}
