@@ -55,7 +55,7 @@ function commonSs(id,type){
 }
 
 // 拼团详情
-function groupInfo(iid,gid){
-  console.log(iid,gid);
-  window.location.href = "/admin/groupGoods/index/iid/"+iid+"/gid/"+gid;
+function groupInfo(iid,ggid){
+  console.log(iid,ggid);
+  window.location.href = "/admin/groupGoods/index/iid/"+iid+"/id/"+ggid;
 }

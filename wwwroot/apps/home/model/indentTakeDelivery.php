@@ -18,5 +18,13 @@ class indentTakeDelivery extends model{
     return $this->get($this->table,'*',['iid'=>$iid]);
   }
 
+  /**
+   * 删除数据
+   */
+  public function del($iid){
+    $res = $this->delete($this->table,['iid'=>$iid]);
+    return $res->rowCount();
+  }
+
 }
 

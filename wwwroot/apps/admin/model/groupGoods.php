@@ -21,8 +21,8 @@ class groupGoods extends model{
   /**
    * 读取拼团信息s
    */
-  public function getInfos($gid){
-    return $this->get($this->table,'*',['gid'=>$gid]);
+  public function getInfos($id){
+    return $this->get($this->table,'*',['id'=>$id]);
   }
 
   /**
@@ -47,16 +47,16 @@ class groupGoods extends model{
   public function getCorrelation($gid){
     // sql
     $sql = "
-        select
+        SELECT
                 *
-        from
+        FROM
                 `$this->table`
-        where
+        WHERE
                 1 = 1
-        and
+        AND
                 gid = '$gid'
-        order by
-                end_time DESC
+        ORDER BY
+                id DESC
     ";
     return $this->query($sql)->fetchAll();
   }
@@ -66,6 +66,26 @@ class groupGoods extends model{
    */
   public function getConfig($gid,$status){
     return $this->get($this->table,'*',['gid'=>$gid,'status'=>$status]);
+  }
+
+  /**
+   * 读取id
+   */
+  public function getId($gid){
+    // sql
+    $sql = "
+        SELECT
+                id
+        FROM
+                `$this->table`
+        WHERE
+                1 = 1
+        AND
+                gid = '$gid'
+        ORDER BY
+                id DESC
+    ";
+    return $this->query($sql)->fetch();
   }
 
 }

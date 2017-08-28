@@ -32,5 +32,13 @@ class indentGoods extends model{
     return $this->count($this->table,['gid'=>$gid]);
   }
 
+  /**
+   * 删除数据
+   */
+  public function del($iid){
+    $res = $this->delete($this->table,['iid'=>$iid]);
+    return $res->rowCount();
+  }
+
 }
 

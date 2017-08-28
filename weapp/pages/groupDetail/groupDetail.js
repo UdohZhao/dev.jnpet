@@ -517,7 +517,8 @@ Page({
                       specification: that.data.radioValue,
                       promotion_price: promotion_price,
                       quantity: that.data.num,
-                      buytype: that.data.buytype
+                      buytype: that.data.buytype,
+                      ggid: that.data.gData.ggData.id
                     },
                     header: {
                       'content-type': 'application/x-www-form-urlencoded'

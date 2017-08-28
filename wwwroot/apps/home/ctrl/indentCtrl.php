@@ -85,6 +85,7 @@ class indentCtrl extends baseCtrl{
       $idata['remarks'] = $_POST['message'];
       $idata['status'] = 1;
     } else {
+      $idata['ggid'] = isset($_POST['ggid']) ? $_POST['ggid'] : 0;
       $idata['openid'] = $this->openid;
       $idata['inumber'] = createIn();
       if ($this->itype == 1) {
@@ -222,18 +223,23 @@ class indentCtrl extends baseCtrl{
     // Get
     if (IS_GET === true) {
       // 获取订单类型，1为拼团
-      $itype = $this->db->getItype($this->id);
-      if ($itype == 1) {
-        // 获取订单商品id
-        $gid = $this->igdb->getGid($this->id);
-        // 获取拼团商品信息主键id
-        $ggid = $this->ggdb->getId($gid);
+      $idata = $this->db->getInfo($this->id);
+      if ($idata['itype'] == 1) {
         // 删除相关拼团加入数据
-        $this->gjdb->del($this->openid,$ggid);
+        $this->gjdb->del($this->openid,$idata['ggid']);
         // 更新拼团商品状态
-        $this->ggdb->save($ggid,array('type'=>0,'status'=>0));
+        $this->ggdb->save($idata['ggid'],array('type'=>0,'status'=>0));
+        // 删除订单
+        $res = $this->db->del($this->id);
+        if ($res) {
+          $this->igdb->del($this->id);
+          $this->itddb->del($this->id);
+        }
+      } else {
+        // 修改订单状态
+        $res = $this->db->save($this->id,array('status'=>2));
       }
-      $res = $this->db->save($this->id,array('status'=>2));
+      // ###
       if ($res) {
         echo J(R(200,'受影响的操作 :)'));
         die;

@@ -55,7 +55,9 @@
           {% for k,v in data %}
             <tr>
               <td>
-                {% if v.status == 1 %}
+                {% if v.status == 0 %}
+                  <span class="label label-danger">待完善</span>
+                {% elseif v.status == 1 %}
                   <span class="label label-success">正常</span>
                 {% elseif v.status == 2 %}
                   <span class="label label-danger">取消订单</span>
@@ -102,7 +104,7 @@
                   <button type="button" class="btn btn-primary btn-xs" onclick="commonSs({{ v.id }},2);">已发货</button>
                 {% endif %}
                 {% if itype == 1 %}
-                  <button type="button" class="btn btn-primary btn-xs" onclick="groupInfo({{ v.id }},{{ v.igData.0.gid }});">拼团详情</button>
+                  <button type="button" class="btn btn-primary btn-xs" onclick="groupInfo({{ v.id }},{{ v.ggid }});">拼团详情</button>
                 {% endif %}
                 <!-- <button type="button" class="btn btn-primary btn-xs" onclick="edit({{ v.id }});">编辑</button>
                 <button type="button" class="btn btn-default btn-xs" onclick="del({{ v.id }});">删除</button>

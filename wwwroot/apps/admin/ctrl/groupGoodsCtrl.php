@@ -80,7 +80,7 @@ class groupGoodsCtrl extends baseCtrl{
   // 拼团详情页面
   public function index(){
     // 读取拼团信息
-    $data = $this->db->getInfos($this->gid);
+    $data = $this->db->getInfos($this->id);
     // 读取参团用户
     $data['gjData'] = $this->gjdb->getCorrelation($data['id']);
     if (!$data['gjData']) {

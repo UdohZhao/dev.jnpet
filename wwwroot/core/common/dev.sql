@@ -11,6 +11,7 @@ CREATE TABLE `admin_user`(
 # 订单表
 CREATE TABLE `indent`(
     `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '订单表主键id',
+    `ggid` int(11) UNSIGNED NOT NULL COMMENT '关联拼团商品表主键id',
     `openid` varchar(64) NOT NULL COMMENT '唯一标识，openid',
     `inumber` varchar(64) NOT NULL COMMENT '订单编号',
     `total_money` decimal(14,2) UNSIGNED NOT NULL COMMENT '总金额',
@@ -23,7 +24,8 @@ CREATE TABLE `indent`(
     `itype` tinyint(1) UNSIGNED NOT NULL COMMENT '订单类型？0>普通，1>拼团',
     `type` tinyint(1) UNSIGNED NOT NULL COMMENT '类型？0>待付款，1>待发货，2>待收货，3>待评价，4>售后服务',
     `status` tinyint(1) UNSIGNED NOT NULL COMMENT '状态？0>待完善，1>正常，2>取消订单，3>订单超时，4>申请退款，5>退款失败，6>退款成功',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY (`ggid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 # 订单商品表
 CREATE TABLE `indent_goods`(

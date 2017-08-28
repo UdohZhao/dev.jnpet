@@ -62,7 +62,13 @@ class indent extends model{
     return $this->get($this->table,'itype',['id'=>$id]);
   }
 
-
+  /**
+   * 删除数据
+   */
+  public function del($id){
+    $res = $this->delete($this->table,['id'=>$id]);
+    return $res->rowCount();
+  }
 
 }
 
