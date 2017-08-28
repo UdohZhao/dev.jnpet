@@ -78,9 +78,11 @@ class indentCtrl extends baseCtrl{
   public function coo(){
     // Ajax
     if (IS_AJAX === true) {
-      // 更新为取消订单状态
+      // 删除订单
       $res = $this->db->del($this->id);
       if ($res) {
+        $this->igdb->del($this->id);
+        $this->itddb->del($this->id);
         // 删除参团数据
         $this->gjdb->delCorrelation($_POST['ggid'],$_POST['openid']);
         // 更新拼团商品状态

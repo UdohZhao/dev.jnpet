@@ -10,4 +10,12 @@ class indentGoods extends model{
     return $this->select($this->table,'*',['iid'=>$iid]);
   }
 
+  /**
+   * 删除订单
+   */
+  public function del($iid){
+    $res = $this->delete($this->table,['iid'=>$iid]);
+    return $res->rowCount();
+  }
+
 }
