@@ -107,9 +107,9 @@ function commonSs(iid,type){
 }
 
 // 结束拼团
-function ggEnd(id){
+function ggEnd(id,gid){
 
-  console.log(id);
+  console.log(id,gid);
 
   swal({
     title: "确认所有参团用户购买的商品已经发出吗？",
@@ -130,7 +130,8 @@ function ggEnd(id){
         method: 'GET',
         url: '/admin/groupGoods/gEnd',
         data: {
-          id: id
+          id: id,
+          gid: gid
         },
         dataType: 'JSON',
         success: function(res){
