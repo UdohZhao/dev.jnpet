@@ -5,6 +5,7 @@ use apps\admin\model\indent;
 use apps\admin\model\indentGoods;
 use apps\admin\model\indentTakeDelivery;
 use apps\admin\model\groupJoin;
+use apps\admin\model\groupGoods;
 class indentCtrl extends baseCtrl{
   public $itype;
   public $type;
@@ -12,6 +13,7 @@ class indentCtrl extends baseCtrl{
   public $igdb;
   public $itddb;
   public $gjdb;
+  public $ggdb;
   public $id;
   // 构造方法
   public function _auto(){
@@ -24,6 +26,7 @@ class indentCtrl extends baseCtrl{
     $this->igdb = new indentGoods();
     $this->itddb = new indentTakeDelivery();
     $this->gjdb = new groupJoin();
+    $this->ggdb = new groupGoods();
   }
 
   /**
@@ -80,6 +83,8 @@ class indentCtrl extends baseCtrl{
       if ($res) {
         // 删除参团数据
         $this->gjdb->delCorrelation($_POST['ggid'],$_POST['openid']);
+        // 更新拼团商品状态
+        $this->ggdb->save($_POST['ggid'],array('type'=>0,'status'=>0));
         echo J(R(200,'受影响的操作 :)'));
         die;
       } else {

@@ -19,6 +19,7 @@ class groupGoodsCtrl extends baseCtrl{
     $this->id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     $this->iid = isset($_GET['iid']) ? intval($_GET['iid']) : 0;
     $this->assign('gid',$this->gid);
+    $this->assign('iid',$this->iid);
     $this->gdb = new goods();
     $this->db = new groupGoods();
     $this->gjdb = new groupJoin();
@@ -79,15 +80,18 @@ class groupGoodsCtrl extends baseCtrl{
   // 拼团详情页面
   public function index(){
     // 读取拼团信息
-    $data = $this->db->getInfo($this->gid);
+    $data = $this->db->getInfos($this->gid);
     // 读取参团用户
     $data['gjData'] = $this->gjdb->getCorrelation($data['id']);
     if (!$data['gjData']) {
       $data['gjData'] = false;
     } else {
-      foreach ($data['gjData'] AS $k => $v) {
-        $data['gjData'][$k]['iid'] = $this->iid;
-        $data['gjData'][$k]['type'] = $this->idb->getType($this->iid,$v['openid']);
+      // iid 订单id
+      if ($this->iid) {
+        foreach ($data['gjData'] AS $k => $v) {
+          $data['gjData'][$k]['iid'] = $this->iid;
+          $data['gjData'][$k]['type'] = $this->idb->getType($this->iid,$v['openid']);
+        }
       }
     }
     // assign
@@ -103,8 +107,11 @@ class groupGoodsCtrl extends baseCtrl{
   public function gEnd(){
     // Ajax
     if (IS_AJAX === true) {
+      // 结束拼团状态
       $res = $this->db->save($this->id,array('status'=>1));
       if ($res) {
+        // 下架拼团商品
+        $this->gdb->save($this->gid,array('status'=>1));
         echo J(R(200,'受影响的操作 :)'));
         die;
       } else {

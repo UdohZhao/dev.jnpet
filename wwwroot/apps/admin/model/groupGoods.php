@@ -14,7 +14,14 @@ class groupGoods extends model{
   /**
    * 读取拼团信息
    */
-  public function getInfo($gid){
+  public function getInfo($gid,$status){
+    return $this->get($this->table,'*',['gid'=>$gid,'status'=>$status]);
+  }
+
+  /**
+   * 读取拼团信息s
+   */
+  public function getInfos($gid){
     return $this->get($this->table,'*',['gid'=>$gid]);
   }
 

@@ -55,10 +55,10 @@
             {% endif %}
             </div>
           </div>
-          {% if data.status == 0 and data.type == 1 %}
+          {% if data.status == 0 and data.type == 1 and iid != 0 %}
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="button" class="btn btn-danger" onclick="ggEnd({{ data.id }});" style="float: right;" >结束拼团</button>
+                <button type="button" class="btn btn-danger" onclick="ggEnd({{ data.id }},{{ data.gid }});" style="float: right;" >结束拼团</button>
               </div>
             </div>
           {% endif %}
@@ -74,24 +74,30 @@
               <th>唯一标识（openid）</th>
               <th>头像</th>
               <th>昵称</th>
+              {% if iid != 0 %}
               <th>操作</th>
+              {% endif %}
             </tr>
           </thead>
           <tbody>
           {% if data.gjData %}
             {% for k,v in data.gjData %}
               <tr>
-              {% if v.type == 0 %}
-                <td><span class="label label-danger">待付款</span></td>
-              {% endif %}
-              {% if v.type == 1 %}
-                <td><span class="label label-info">待发货</span></td>
-              {% endif %}
-              {% if v.type == 2 %}
-                <td><span class="label label-info">待收货</span></td>
-              {% endif %}
-              {% if v.type == 3 %}
-                <td><span class="label label-info">已收货</span></td>
+              {% if iid != 0 %}
+                {% if v.type == 0 %}
+                  <td><span class="label label-danger">待付款</span></td>
+                {% endif %}
+                {% if v.type == 1 %}
+                  <td><span class="label label-info">待发货</span></td>
+                {% endif %}
+                {% if v.type == 2 %}
+                  <td><span class="label label-info">待收货</span></td>
+                {% endif %}
+                {% if v.type == 3 %}
+                  <td><span class="label label-info">已收货</span></td>
+                {% endif %}
+              {% else %}
+                <td></td>
               {% endif %}
                 <td>{{ v.ctime|date('Y-m-d H:i') }}</td>
                 <td>{{ v.openid }}</td>
@@ -100,11 +106,13 @@
                 </td>
                 <td>{{ v.nickname }}</td>
                 <td>
-                {% if v.type == 0 %}
-                  <button type="button" class="btn btn-primary btn-xs" onclick="coo({{ v.iid }},{{ v.ggid }},'{{ v.openid }}');">取消订单</button>
-                {% endif %}
-                {% if data.type == 1 and v.type == 1 %}
-                  <button type="button" class="btn btn-primary btn-xs" onclick="commonSs({{ v.iid }},2);">已发货</button>
+                {% if iid != 0 %}
+                  {% if v.type == 0 %}
+                    <button type="button" class="btn btn-primary btn-xs" onclick="coo({{ v.iid }},{{ v.ggid }},'{{ v.openid }}');">取消订单</button>
+                  {% endif %}
+                  {% if data.type == 1 and v.type == 1 %}
+                    <button type="button" class="btn btn-primary btn-xs" onclick="commonSs({{ v.iid }},2);">已发货</button>
+                  {% endif %}
                 {% endif %}
                 </td>
               </tr>
