@@ -57,8 +57,10 @@
               <td>
                 {% if v.status == 1 %}
                   <span class="label label-success">正常</span>
-                {% elseif v.status == 4 %}
-                  <span class="label label-danger">申请退款</span>
+                {% elseif v.status == 2 %}
+                  <span class="label label-danger">取消订单</span>
+                {% elseif v.status == 3 %}
+                  <span class="label label-danger">订单超时</span>
                 {% elseif v.status == 5 %}
                   <span class="label label-danger">退款失败</span>
                 {% elseif v.status == 6 %}
