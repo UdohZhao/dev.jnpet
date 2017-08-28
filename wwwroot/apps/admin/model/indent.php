@@ -25,4 +25,27 @@ class indent extends model{
     return $this->query($sql)->fetchAll();
   }
 
+  /**
+   * 更新数据
+   */
+  public function save($id,$data){
+    $res = $this->update($this->table,$data,['id'=>$id]);
+    return $res->rowCount();
+  }
+
+  /**
+   * 读取订单类型
+   */
+  public function getType($id,$openid){
+    return $this->get($this->table,'type',['id'=>$id,'openid'=>$openid]);
+  }
+
+  /**
+   * 删除订单
+   */
+  public function del($id){
+    $res = $this->delete($this->table,['id'=>$id]);
+    return $res->rowCount();
+  }
+
 }

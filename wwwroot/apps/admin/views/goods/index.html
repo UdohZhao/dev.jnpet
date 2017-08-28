@@ -62,7 +62,7 @@
                   <button type="button" class="btn btn-default btn-xs" onclick="del({{ type }},{{ v.id }});">删除</button>
                 {% else %}
                   {% if v.type == 1 %}
-                    <button type="button" class="btn btn-success btn-xs" onclick="ggInfo({{ v.id }});">拼团详情</button>
+                  <button type="button" class="btn btn-info btn-xs" onclick="ggInfo({{ v.id }});">拼团详情</button>
                   {% endif %}
                   <button type="button" class="btn btn-danger btn-xs" onclick="changeStatus({{ type }},{{ v.id }},1);">下架</button>
                 {% endif %}

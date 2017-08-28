@@ -164,8 +164,9 @@ class goodsCtrl extends baseCtrl{
     if (IS_AJAX === true) {
       // type 1 拼团
       if ($this->type == 1) {
-        // 读取拼团信息
-        $res = $this->ggdb->getInfo($this->id,0);
+        // 读取拼团信息（必须要在进行中）
+        $status = 0;
+        $res = $this->ggdb->getInfo($this->id,$status);
         if (!$res) {
           echo J(R(401,'请先配置拼团信息 :('));
           die;

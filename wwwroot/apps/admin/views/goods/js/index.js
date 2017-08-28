@@ -58,7 +58,23 @@ function del(type,id){
 
 // 配置拼团
 function ggConfig(gid){
-  window.location.href = "/admin/groupGoods/add/gid/"+gid;
+  // 防止多次配置
+  $.ajax({
+    method: "GET",
+    url: "/admin/groupGoods/getConfig/gid/"+gid,
+    dataType: "JSON",
+    success: function (res) {
+      console.log(res);
+      if (res.code == 400) {
+        swal("错误提示", res.msg, "error");
+      } else {
+        window.location.href = "/admin/groupGoods/add/gid/"+gid;
+      }
+    },
+    error: function (e) {
+      console.log(e);
+    }
+  });
 }
 
 // 上架&下架
@@ -83,6 +99,9 @@ function changeStatus(type,id,status){
         data: {status:status},
         dataType: "JSON",
         success: function(res){
+
+          console.log(res);
+
           if (res.code == 400) {
             swal("提交失败", res.msg, "error");
           } else if (res.code == 401) {
@@ -105,5 +124,5 @@ function changeStatus(type,id,status){
 
 // 拼团详情
 function ggInfo(gid){
-  window.location.href = "/admin/groupGoods/index/gid/"+gid;
+  window.location.href = "/admin/groupGoods/listSs/gid/"+gid;
 }
