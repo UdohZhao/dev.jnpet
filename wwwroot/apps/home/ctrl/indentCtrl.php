@@ -230,6 +230,8 @@ class indentCtrl extends baseCtrl{
         $ggid = $this->ggdb->getId($gid);
         // 删除相关拼团加入数据
         $this->gjdb->del($this->openid,$ggid);
+        // 修改拼团商品状态
+        $ggid = $this->ggdb->save($ggid,array('type'=>0));
       }
       $res = $this->db->save($this->id,array('status'=>2));
       if ($res) {
