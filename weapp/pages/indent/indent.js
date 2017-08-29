@@ -289,6 +289,276 @@ Page({
     wx.makePhoneCall({
       phoneNumber: App.data.phone
     })
+  },
+
+  /**
+   * 确认收货
+   */
+  tdog: function (e) {
+
+    console.log(e);
+
+    // 确认框
+    wx.showModal({
+      title: '确认收货吗？',
+      content: '确定后将不可修改 :(',
+      showCancel: true,
+      success: function (res) {
+        if (res.confirm) {
+
+          // 请求收货
+          wx.request({
+            url: App.data.domain + '/indent/tdog',
+            data: {
+              id: e.currentTarget.dataset.id
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+
+              console.log(res.data);
+
+              // if 
+              if (res.data.code == 400) {
+
+                wx.showModal({
+                  title: '请求失败',
+                  content: '请点击确定刷新页面!',
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/main/main'
+                      })
+                    }
+                  }
+                })
+
+              } else {
+
+                wx.showModal({
+                  title: '请求成功',
+                  content: res.data.msg,
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/me/me'
+                      })
+                    }
+                  }
+                })
+
+              }
+            },
+            fail: function (e) {
+              console.log(e)
+              wx.showModal({
+                title: '网络错误',
+                content: '请点击确定刷新页面!',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.reLaunch({
+                      url: '/pages/main/main'
+                    })
+                  }
+                }
+              })
+            }
+          })
+
+        } else {
+          console.log('用户点击了取消');
+        }
+      }
+    })
+
+  },
+
+  /**
+   * 立即评价
+   */
+  estimate: function (e) {
+
+    // 获取订单id
+    console.log(e.currentTarget.dataset.id);
+
+    wx.navigateTo({
+      url: '/pages/estimate/estimate?iid=' + e.currentTarget.dataset.id
+    });
+
+  },
+
+  /**
+   * 进入售后
+   */
+  afterSale: function (e) {
+
+    // 获取订单id
+    console.log(e.currentTarget.dataset.id);
+
+    wx.showModal({
+      title: '小提示',
+      content: '确认商品都评价了吗？',
+      success: function (res) {
+        if (res.confirm) {
+
+          // 请求进入售后
+          wx.request({
+            url: App.data.domain + '/indent/afterSale',
+            data: {
+              id: e.currentTarget.dataset.id
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+
+              console.log(res.data);
+
+              // if 
+              if (res.data.code == 400) {
+
+                wx.showModal({
+                  title: '请求失败',
+                  content: '请点击确定刷新页面!',
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/main/main'
+                      })
+                    }
+                  }
+                })
+
+              } else {
+
+                wx.showModal({
+                  title: '请求成功',
+                  content: res.data.msg,
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/me/me'
+                      })
+                    }
+                  }
+                })
+
+              }
+            },
+            fail: function (e) {
+              console.log(e)
+              wx.showModal({
+                title: '网络错误',
+                content: '请点击确定刷新页面!',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.reLaunch({
+                      url: '/pages/main/main'
+                    })
+                  }
+                }
+              })
+            }
+          })
+
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
+  },
+
+  /**
+   * 申请退款
+   */
+  refund: function (e) {
+
+    // 获取订单id
+    console.log(e.currentTarget.dataset.id);
+
+    wx.showModal({
+      title: '小提示',
+      content: '确认申请退款吗？',
+      success: function (res) {
+        if (res.confirm) {
+
+          // 请求退款
+          wx.request({
+            url: App.data.domain + '/indent/refund',
+            data: {
+              id: e.currentTarget.dataset.id
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+
+              console.log(res.data);
+
+              // if 
+              if (res.data.code == 400) {
+
+                wx.showModal({
+                  title: '请求失败',
+                  content: '请点击确定刷新页面!',
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/main/main'
+                      })
+                    }
+                  }
+                })
+
+              } else {
+
+                wx.showModal({
+                  title: '请求成功',
+                  content: res.data.msg,
+                  showCancel: false,
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/me/me'
+                      })
+                    }
+                  }
+                })
+
+              }
+            },
+            fail: function (e) {
+              console.log(e)
+              wx.showModal({
+                title: '网络错误',
+                content: '请点击确定刷新页面!',
+                showCancel: false,
+                success: function (res) {
+                  if (res.confirm) {
+                    wx.reLaunch({
+                      url: '/pages/main/main'
+                    })
+                  }
+                }
+              })
+            }
+          })
+
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
   }
 
 })

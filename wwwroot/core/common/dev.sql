@@ -36,6 +36,7 @@ CREATE TABLE `indent_goods`(
     `goods_specification` varchar(25) NOT NULL COMMENT '商品规格',
     `goods_price` decimal(14,2) UNSIGNED NOT NULL COMMENT '商品价格',
     `quantity` tinyint(3) UNSIGNED NOT NULL COMMENT '购买数量',
+    `status` tinyint(1) UNSIGNED NOT NULL COMMENT '状态？0>未评价，1>已评价',
     PRIMARY KEY (`id`),
     KEY (`iid`),
     KEY (`gid`)

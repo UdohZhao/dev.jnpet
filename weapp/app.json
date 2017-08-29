@@ -47,7 +47,7 @@
       },
       {
         "pagePath": "pages/me/me",
-        "text": "我",
+        "text": "我的",
         "iconPath": "dist/images/icon/me-default.png",
         "selectedIconPath": "dist/images/icon/me-selected.png"
       }

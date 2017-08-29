@@ -184,8 +184,13 @@
 }
 
 .goods-title{
+  font-size: 26rpx;
+  color: #999;
+}
+
+.goods-estimate{
   font-size: 32rpx;
-  color: #000;
+  color: #999;
 }
 
 .ge-user{

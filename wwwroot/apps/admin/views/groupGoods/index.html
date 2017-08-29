@@ -108,7 +108,7 @@
                 <td>
                 {% if iid != 0 %}
                   {% if v.type == 0 %}
-                    <button type="button" class="btn btn-primary btn-xs" onclick="coo({{ v.iid }},{{ v.ggid }},'{{ v.openid }}');">取消订单</button>
+                    <button type="button" class="btn btn-primary btn-xs" onclick="coo({{ iid }},{{ v.ggid }},{{ v.id }});">取消订单</button>
                   {% endif %}
                   {% if data.type == 1 and v.type == 1 %}
                     <button type="button" class="btn btn-primary btn-xs" onclick="commonSs({{ v.iid }},2);">已发货</button>

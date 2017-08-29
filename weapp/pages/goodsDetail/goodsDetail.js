@@ -182,45 +182,31 @@ Page({
       activeIndex: e.currentTarget.id
     })
 
+    console.log(that.data.activeIndex);
+
     // 友好体验开始
     wx.showLoading({
       title: '加载中',
     })
 
-    // 请求首页数据（普通商品分类，普通商品）
+    
     if (that.data.activeIndex == 1) {
+      // 请求商品评价数据
       wx.request({
         url: App.data.domain + '/goodsEstimate/getData/gid/' + that.data.gData.id,
         header: {
           'content-type': 'application/json'
         },
         success: function (res) {
-          // if 
-          if (res.data.code == 400) {
-            wx.showModal({
-              title: '请求失败',
-              content: '请点击确定刷新页面!',
-              showCancel: false,
-              success: function (res) {
-                if (res.confirm) {
-                  wx.reLaunch({
-                    url: '/pages/main/main'
-                  })
-                }
-              }
-            })
-          } else {
+          
+          console.log(res.data);
 
-            // 赋值
-            // that.setData({
-            //   gcData: res.data.data.gcData,
-            //   gData: res.data.data.gData,
-            //   banner: res.data.data.banner
-            // })
+          that.setData({
+            geData: res.data.data
+          });
 
-            console.log(res.data);
+          console.log(that.data.geData);
 
-          }
         },
         fail: function (e) {
           console.log(e)

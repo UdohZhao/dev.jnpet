@@ -1,6 +1,7 @@
 <?php
 namespace apps\admin\ctrl;
 use core\lib\conf;
+use vendor\page\Page;
 use apps\admin\model\goods;
 use apps\admin\model\groupGoods;
 use apps\admin\model\groupJoin;
@@ -89,7 +90,6 @@ class groupGoodsCtrl extends baseCtrl{
       // iid 订单id
       if ($this->iid) {
         foreach ($data['gjData'] AS $k => $v) {
-          $data['gjData'][$k]['iid'] = $this->iid;
           $data['gjData'][$k]['type'] = $this->idb->getType($this->iid,$v['openid']);
         }
       }
@@ -127,13 +127,18 @@ class groupGoodsCtrl extends baseCtrl{
   public function listSs(){
     // Get
     if (IS_GET === true) {
+      // 获取总记录数
+      $totalRow = $this->db->totalRow($this->gid);
+      // 实例化分页类
+      $page = new Page($totalRow,conf::get('LIMIT','admin'));
       // 读取商品名称
       $cname = $this->gdb->getCname($this->gid);
       // 读取相关拼团数据
-      $data = $this->db->getCorrelation($this->gid);
+      $data = $this->db->getCorrelation($this->gid,$page->limit);
       // assign
       $this->assign('cname',$cname);
       $this->assign('data',$data);
+      $this->assign('page',$page->showpage());
       // display
       $this->display('groupGoods','listSs.html');
       die;

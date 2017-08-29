@@ -40,5 +40,13 @@ class indentGoods extends model{
     return $res->rowCount();
   }
 
+  /**
+   * 更新订单商品状态
+   */
+  public function saveStatus($iid,$gid,$specification,$data){
+    $res = $this->update($this->table,$data,['iid'=>$iid,'gid'=>$gid,'goods_specification'=>$specification]);
+    return $res->rowCount();
+  }
+
 }
 

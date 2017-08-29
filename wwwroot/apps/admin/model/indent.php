@@ -6,7 +6,7 @@ class indent extends model{
   /**
    * 读取全部订单数据
    */
-  public function getAll($itype,$type){
+  public function getAll($itype,$type,$search,$limit){
     // sql
     $sql = "
         SELECT
@@ -19,8 +19,11 @@ class indent extends model{
                 itype = '$itype'
         AND
                 type = '$type'
+        AND
+                inumber like '%$search%'
         ORDER BY
                 ctime DESC
+        {$limit}
     ";
     return $this->query($sql)->fetchAll();
   }
@@ -46,6 +49,13 @@ class indent extends model{
   public function del($id){
     $res = $this->delete($this->table,['id'=>$id]);
     return $res->rowCount();
+  }
+
+  /**
+   * 获取总记录数
+   */
+  public function totalRow($itype,$type){
+    return $this->count($this->table,['itype'=>$itype,'type'=>$type]);
   }
 
 }
