@@ -13,7 +13,7 @@
         <view class="weui-cells weui-cells_after-title">
         <radio-group bindchange="radioChange">
                 <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
-                    <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+                    <radio class="weui-check" name="status" value="{{item.value}}" checked="{{item.checked}}"/>
 
                     <view class="weui-cell__bd">{{item.name}}</view>
                     <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
@@ -43,7 +43,7 @@
         <view class="weui-msg__extra-area">
             <view class="weui-footer">
                 <view class="weui-footer__links">
-                    <navigator url="" class="weui-footer__link">海淘电商-酷浪网络</navigator>
+                    <navigator url="" class="weui-footer__link">{{technicalSupport}}</navigator>
                 </view>
             </view>
         </view>

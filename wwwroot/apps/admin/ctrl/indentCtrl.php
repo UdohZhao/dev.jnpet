@@ -1,6 +1,7 @@
 <?php
 namespace apps\admin\ctrl;
 use core\lib\conf;
+use vendor\page\Page;
 use apps\admin\model\indent;
 use apps\admin\model\indentGoods;
 use apps\admin\model\indentTakeDelivery;
@@ -33,8 +34,14 @@ class indentCtrl extends baseCtrl{
    * 订单列表
    */
   public function index(){
+    // search
+    $search = isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '';
+    // 获取总记录数
+    $totalRow = $this->db->totalRow($this->itype,$this->type);
+    // 实例化分页类
+    $page = new Page($totalRow,conf::get('LIMIT','admin'));
     // 读取订单数据
-    $data = $this->db->getAll($this->itype,$this->type);
+    $data = $this->db->getAll($this->itype,$this->type,$search,$page->limit);
     foreach ($data AS $k => $v) {
       // 读取订单商品数据
       $data[$k]['igData'] = $this->igdb->getCorrelation($v['id']);
@@ -43,6 +50,7 @@ class indentCtrl extends baseCtrl{
     }
     // assign
     $this->assign('data',$data);
+    $this->assign('page',$page->showpage());
     // display
     $this->display('indent','index.html');
     die;
@@ -84,7 +92,7 @@ class indentCtrl extends baseCtrl{
         $this->igdb->del($this->id);
         $this->itddb->del($this->id);
         // 删除参团数据
-        $this->gjdb->delCorrelation($_POST['ggid'],$_POST['openid']);
+        $this->gjdb->delCorrelation($_POST['gjid']);
         // 更新拼团商品状态
         $this->ggdb->save($_POST['ggid'],array('type'=>0,'status'=>0));
         echo J(R(200,'受影响的操作 :)'));
@@ -94,6 +102,24 @@ class indentCtrl extends baseCtrl{
         die;
       }
     }
+  }
+
+  /**
+   * 申请退款？同意&拒绝
+   */
+  public function nook(){
+    // Get
+    if (IS_GET === true) {
+      $res = $this->db->save($this->id,array('status'=>$_GET['status']));
+      if ($res) {
+        echo J(R(200,'受影响的操作 :)'));
+        die;
+      } else {
+        echo J(R(400,'请尝试刷新页面后重试 :('));
+        die;
+      }
+    }
+
   }
 
 }

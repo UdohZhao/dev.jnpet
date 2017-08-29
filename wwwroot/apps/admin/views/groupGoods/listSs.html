@@ -51,9 +51,11 @@
           {% endfor %}
           </tbody>
         </table>
-        <!-- <blockquote>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        </blockquote> -->
+        {% autoescape false %}
+          <div style="float: right;">
+            {{ page }}
+          </div>
+        {% endautoescape %}
       </div>
     </div>
   </div>

@@ -16,9 +16,9 @@
       <div class="panel-heading">
         <h3 class="panel-title">@ {% if itype == 0 %}普通{% elseif itype == 1 %}拼团{% endif %}订单列表</h3>
       </div>
-      <form action="/admin/goodsCategory/index/type/{{ type }}" method="post">
+      <form action="/admin/indent/index/itype/{{ itype }}/type/{{ type }}" method="post">
         <div class="input-group" style="width: 300px;float: right;margin-right: 30px;">
-          <input type="text" class="form-control" name="search" placeholder="请输入搜索关键字">
+          <input type="text" class="form-control" name="search" placeholder="请输入订单编号">
           <span class="input-group-btn">
             <button type="submit" class="btn btn-primary"><i class="icon wb-search" aria-hidden="true"></i></button>
           </span>
@@ -63,6 +63,8 @@
                   <span class="label label-danger">取消订单</span>
                 {% elseif v.status == 3 %}
                   <span class="label label-danger">订单超时</span>
+                {% elseif v.status == 4 %}
+                  <span class="label label-danger">申请退款</span>
                 {% elseif v.status == 5 %}
                   <span class="label label-danger">退款失败</span>
                 {% elseif v.status == 6 %}
@@ -100,8 +102,12 @@
                   </dl>
               </td>
               <td>
-                {% if v.type == 1 and itype == 0 %}
+                {% if itype == 0 and v.type == 1 %}
                   <button type="button" class="btn btn-primary btn-xs" onclick="commonSs({{ v.id }},2);">已发货</button>
+                {% endif %}
+                {% if itype == 0 and v.status == 4 %}
+                  <button type="button" class="btn btn-danger btn-xs" onclick="nook({{ v.id }},5);">拒绝</button>
+                  <button type="button" class="btn btn-success btn-xs" onclick="nook({{ v.id }},6);">同意</button>
                 {% endif %}
                 {% if itype == 1 %}
                   <button type="button" class="btn btn-primary btn-xs" onclick="groupInfo({{ v.id }},{{ v.ggid }});">拼团详情</button>

@@ -3,9 +3,9 @@ $(function(){
 })
 
 // 取消订单
-function coo(iid,ggid,openid){
+function coo(iid,ggid,gjid){
 
-  console.log(iid,ggid,openid);
+  console.log(iid,ggid,gjid);
 
   swal({
     title: "确认取消订单吗？",
@@ -27,7 +27,7 @@ function coo(iid,ggid,openid){
         url: '/admin/indent/coo/id/'+iid,
         data: {
           ggid: ggid,
-          openid: openid
+          gjid: gjid
         },
         dataType: 'JSON',
         success: function(res){

@@ -44,7 +44,7 @@ class groupGoods extends model{
   /**
    * 读取相关拼团数据
    */
-  public function getCorrelation($gid){
+  public function getCorrelation($gid,$limit){
     // sql
     $sql = "
         SELECT
@@ -57,6 +57,7 @@ class groupGoods extends model{
                 gid = '$gid'
         ORDER BY
                 id DESC
+        {$limit}
     ";
     return $this->query($sql)->fetchAll();
   }
@@ -86,6 +87,13 @@ class groupGoods extends model{
                 id DESC
     ";
     return $this->query($sql)->fetch();
+  }
+
+  /**
+   * 读取总记录数
+   */
+  public function totalRow($gid){
+    return $this->count($this->table,['gid'=>$gid]);
   }
 
 }

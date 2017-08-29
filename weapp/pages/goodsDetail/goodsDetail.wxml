@@ -71,17 +71,17 @@
                 </view>
                 <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
 
-      <block wx:for="{{geData}}" wx:key="i" wx:for-index="ik" wx:for-item="iv">
+      <block wx:for="{{geData}}" wx:key="i" wx:for-index="k" wx:for-item="v">
       <!--买家评价item start-->
      <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
                     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                        <image class="weui-media-box__thumb" src="/example/images/icon/商务.png" />
+                        <image class="weui-media-box__thumb" src="{{v.avatarurl}}" />
                     </view>
                     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                        <view class="weui-media-box__title ge-user">{{iv.openid}}<text class="ge-status" wx:if="{{iv.status == 0}}">【好评】</text><text class="ge-status" wx:if="{{iv.status == 1}}">【中评】</text><text class="ge-status" wx:if="{{iv.status == 2}}">【差评】</text></view>
+                        <view class="weui-media-box__title ge-user">{{v.nickname}}<text class="ge-status" wx:if="{{v.status == 0}}">【好评】</text><text class="ge-status" wx:if="{{v.status == 1}}">【中评】</text><text class="ge-status" wx:if="{{v.status == 2}}">【差评】</text></view>
                         <view class="weui-media-box__desc">
-                          <view class="goods-title">{{iv.cname}}【{{iv.specification}}】</view>
-                          <view>{{iv.estimate}}</view>
+                          <view class="goods-title">商品规格：{{v.specification}}</view>
+                          <view class="goods-estimate">{{v.estimate}}</view>
                         </view>
                     </view>
                 </view>

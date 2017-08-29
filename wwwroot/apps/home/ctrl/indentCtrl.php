@@ -250,6 +250,60 @@ class indentCtrl extends baseCtrl{
     }
   }
 
+  /**
+   * 请求收货
+   */
+  public function tdog(){
+    // Get
+    if (IS_GET === true) {
+      $res = $this->db->save($this->id,array('type'=>3));
+      if ($res) {
+        echo J(R(200,'受影响的操作 :)'));
+        die;
+      } else {
+        echo J(R(400,''));
+        die;
+      }
+    }
+
+  }
+
+  /**
+   * 请求进入售后
+   */
+  public function afterSale(){
+    // Get
+    if (IS_GET === true) {
+      $res = $this->db->save($this->id,array('type'=>4));
+      if ($res) {
+        echo J(R(200,'受影响的操作 :)'));
+        die;
+      } else {
+        echo J(R(400,''));
+        die;
+      }
+    }
+
+  }
+
+  /**
+   * 请求申请退款
+   */
+  public function refund(){
+    // Get
+    if (IS_GET === true) {
+      $res = $this->db->save($this->id,array('status'=>4));
+      if ($res) {
+        echo J(R(200,'受影响的操作 :)'));
+        die;
+      } else {
+        echo J(R(400,''));
+        die;
+      }
+    }
+
+  }
+
   // 微信支付
   public function wxPay(){
     // Get

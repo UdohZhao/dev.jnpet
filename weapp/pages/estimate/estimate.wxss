@@ -14,3 +14,8 @@
   float: right;
   color: #ff2600;
 }
+.g-title{
+  font-size: 30rpx;
+  overflow-x:hidden;
+  width: 500rpx;
+}

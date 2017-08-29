@@ -21,8 +21,8 @@ class groupJoin extends model{
   /**
    * 删除相关参团用户
    */
-  public function delCorrelation($ggid,$openid){
-    $res = $this->delete($this->table,['ggid'=>$ggid,'openid'=>$openid]);
+  public function delCorrelation($id){
+    $res = $this->delete($this->table,['id'=>$id]);
     return $res->rowCount();
   }
 
