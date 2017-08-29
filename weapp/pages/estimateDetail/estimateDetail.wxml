@@ -39,13 +39,12 @@
         </view>
 
         </form>
-
-        <view class="weui-msg__extra-area">
+        <!-- <view class="weui-msg__extra-area">
             <view class="weui-footer">
                 <view class="weui-footer__links">
                     <navigator url="" class="weui-footer__link">{{technicalSupport}}</navigator>
                 </view>
             </view>
-        </view>
+        </view> -->
     </view>
 </view>
