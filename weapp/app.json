@@ -19,7 +19,7 @@
     "navigationBarTitleText": "壹家宠物狗粮猫粮湿粮天然粮",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#1AAD19",
-    "enablePullDownRefresh": true
+    "enablePullDownRefresh": false
   },
   "tabBar": {
     "color": "#999",
