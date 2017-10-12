@@ -310,6 +310,7 @@ class indentCtrl extends baseCtrl{
     if (IS_GET === true) {
       // 获取订单数据
       $data = $this->db->getInfo($this->id);
+      $data['total_money'] = bcmul($data['total_money'], 100, 0);
       echo J($data);
       die;
       // 优惠券（订单满多少立即多少？）
@@ -320,7 +321,7 @@ class indentCtrl extends baseCtrl{
           $data['total_money'] = bcsub($data['total_money'], $price, 0);
         }
       }
-      $data['total_money'] = bcmul($data['total_money'], 1000, 0);
+      $data['total_money'] = bcmul($data['total_money'], 100, 0);
       // 统一下单
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$data['total_money'],$this->id);
       echo J($jsApiParameters);
