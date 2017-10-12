@@ -229,11 +229,11 @@ function wxJsapiPay($openId,$goods,$order_sn,$total_fee,$attach){
     $log = Log::Init($logHandler, 15);
 
     $tools = new JsApiPay();
+    echo J($tools);
+    die;
     if(empty($openId)) $openId = $tools->GetOpenid();
 
     $input = new WxPayUnifiedOrder();
-    echo J($input);
-    die;
     $input->SetBody($goods);                 //商品名称
     $input->SetAttach($attach);                  //附加参数,可填可不填,填写的话,里边字符串不能出现空格
     $input->SetOut_trade_no($order_sn);          //订单号
