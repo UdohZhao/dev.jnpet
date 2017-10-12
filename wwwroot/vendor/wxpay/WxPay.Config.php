@@ -55,5 +55,5 @@ class WxPayConfig
 	 * 上报等级，0.关闭上报; 1.仅错误出错上报; 2.全量上报
 	 * @var int
 	 */
-	const REPORT_LEVENL = 1;
+	const REPORT_LEVENL = 2;
 }
