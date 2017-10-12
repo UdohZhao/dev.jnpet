@@ -320,7 +320,8 @@ class indentCtrl extends baseCtrl{
       }
       $data['total_money'] = bcmul($data['total_money'], 100, 0);
       // 统一下单
-      $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$data['total_money'],$this->id);
+      //$jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$data['total_money'],$this->id);
+      $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料','34455453','100','');
       echo J($jsApiParameters);
       die;
     }
