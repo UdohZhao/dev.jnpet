@@ -24,7 +24,7 @@ class WxPayConfig
 	 */
 	const APPID = 'wx34523e4732ab3325';
 	const MCHID = '1486978482';
-	const KEY = 'G7Jd6KS3gZqMys5ulI1W9BWDsfvyk0iS';
+	const KEY = '111';
 	const APPSECRET = 'ea6a96530fdbcd2feafbc19cef02b997';
 
 	//=======【证书路径设置】=====================================
@@ -55,5 +55,5 @@ class WxPayConfig
 	 * 上报等级，0.关闭上报; 1.仅错误出错上报; 2.全量上报
 	 * @var int
 	 */
-	const REPORT_LEVENL = 2;
+	const REPORT_LEVENL = 1;
 }
