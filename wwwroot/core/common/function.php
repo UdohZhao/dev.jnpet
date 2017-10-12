@@ -229,8 +229,6 @@ function wxJsapiPay($openId,$goods,$order_sn,$total_fee,$attach){
     $log = Log::Init($logHandler, 15);
 
     $tools = new JsApiPay();
-    echo J($tools);
-    die;
     if(empty($openId)) $openId = $tools->GetOpenid();
 
     $input = new WxPayUnifiedOrder();
