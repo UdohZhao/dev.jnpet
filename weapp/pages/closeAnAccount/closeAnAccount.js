@@ -357,7 +357,6 @@ Page({
             success: function (res) {
 
               console.log(res.data);
-              return false;
 
               // 获取微信统一下单返回的结果
               var jsApiParameters = JSON.parse(res.data);
