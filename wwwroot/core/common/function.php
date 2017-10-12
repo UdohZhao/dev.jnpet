@@ -243,6 +243,7 @@ function wxJsapiPay($openId,$goods,$order_sn,$total_fee,$attach){
     $input->SetNotify_url(conf::get('SERVER_NAME','weapp')."/indent/notify");
     $input->SetTrade_type("JSAPI");              //支付类型
     $input->SetOpenid($openId);                  //用户openID
+    return $input;
     $order = WxPayApi::unifiedOrder($input);    //统一下单
 
     $jsApiParameters = $tools->GetJsApiParameters($order);
