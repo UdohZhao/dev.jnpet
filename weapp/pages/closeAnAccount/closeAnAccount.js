@@ -332,6 +332,12 @@ Page({
 
           console.log('发起支付流程');
 
+          console.log(wx.getStorageSync('openid'));
+          console.log(wx.getStorageSync('iprice'));
+          console.log(wx.getStorageSync('price'));
+
+          return false;
+
           // 请求微信支付统一下单
           wx.request({
             url: App.data.domain + '/indent/wxPay',
