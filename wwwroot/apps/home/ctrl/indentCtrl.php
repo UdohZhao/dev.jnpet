@@ -308,6 +308,8 @@ class indentCtrl extends baseCtrl{
   public function wxPay(){
     // Get
     if (IS_GET === true) {
+      echo J($_GET);
+      die;
       // 获取订单数据
       $data = $this->db->getInfo($this->id);
       // 优惠券（订单满多少立即多少？）
