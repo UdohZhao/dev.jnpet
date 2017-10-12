@@ -332,11 +332,15 @@ Page({
 
           console.log('发起支付流程');
 
-          console.log(wx.getStorageSync('openid'));
-          console.log(wx.getStorageSync('iprice'));
-          console.log(wx.getStorageSync('price'));
-
-          return false;
+          var iprice = '';
+          var price = '';
+          // 优惠券信息
+          if (wx.getStorageSync('iprice') == '') {
+            iprice = 0;
+          }
+          if (wx.getStorageSync('price') == '') {
+            price = 0;
+          }
 
           // 请求微信支付统一下单
           wx.request({
@@ -344,8 +348,8 @@ Page({
             data: {
               id: that.data.iid,
               openid: wx.getStorageSync('openid'),
-              iprice: wx.getStorageSync('iprice'),
-              price: wx.getStorageSync('price')
+              iprice: iprice,
+              price: price
             },
             header: {
               'content-type': 'application/json'
