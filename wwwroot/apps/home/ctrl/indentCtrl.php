@@ -308,8 +308,6 @@ class indentCtrl extends baseCtrl{
   public function wxPay(){
     // Get
     if (IS_GET === true) {
-      echo J($_GET);
-      die;
       // 获取订单数据
       $data = $this->db->getInfo($this->id);
       // 优惠券（订单满多少立即多少？）
@@ -321,6 +319,8 @@ class indentCtrl extends baseCtrl{
         }
       }
       $data['total_money'] = bcmul($data['total_money'], 100, 0);
+      echo J($data);
+      die;
       // 统一下单
       $jsApiParameters = wxJsapiPay($this->openid,'宠物饲料',$data['inumber'],$data['total_money'],$this->id);
       echo J($jsApiParameters);
